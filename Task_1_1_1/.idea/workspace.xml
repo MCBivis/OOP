@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c4be77b2-01b3-42bf-89e3-806fd0b508fd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/HeapSort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/HeapSort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/example/HeapSortTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/HeapSortTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,6 +64,7 @@
     "Gradle.HeapSortTest.heapsort.executor": "Run",
     "Gradle.Task_1_1_1 [:org.example.Main.main()].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "git-widget-placeholder": "Task__1__1__1",
@@ -79,7 +78,7 @@
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editing.templates",
+    "settings.editor.selected.configurable": "org.infernus.idea.checkstyle.CheckStyleConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -91,7 +90,7 @@
       <recent name="org.example" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="Task_1_1_1.main" />
@@ -156,7 +155,8 @@
       <workItem from="1725449476243" duration="2873000" />
       <workItem from="1725452508715" duration="2123000" />
       <workItem from="1725455121120" duration="615000" />
-      <workItem from="1725517175695" duration="1089000" />
+      <workItem from="1725517175695" duration="1707000" />
+      <workItem from="1725518906536" duration="534000" />
     </task>
     <servers />
   </component>
