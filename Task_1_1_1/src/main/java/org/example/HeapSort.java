@@ -12,7 +12,7 @@ public class HeapSort {
      * @param i индекс первого элемента
      * @param j индекс второго элемента
      */
-    public static void swap(int[] arr, int i, int j) {
+    private static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
@@ -23,16 +23,19 @@ public class HeapSort {
      *
      * @param arr массив для сортировки
      */
-    public static void heapSort(int[] arr) {
+    public static int[] heapSort(int[] arr) {
         int len = arr.length;
-        if (heapInit(arr, len) == 0) {
-            return;
+        int[] temp= new int[len];
+        System.arraycopy(arr, 0, temp, 0, len);
+        if (heapInit(temp, len) == 0) {
+            return temp;
         }
-        swap(arr, 0, --len);
+        swap(temp, 0, --len);
         while (len > 0) {
-            heapify(arr, 0, len);
-            swap(arr, 0, --len);
+            heapify(temp, 0, len);
+            swap(temp, 0, --len);
         }
+        return temp;
     }
 
     /**
@@ -42,7 +45,7 @@ public class HeapSort {
      * @param len текущая длина массива
      * @return 1 если пирамидальная сортировка возможна, 0 если нет
      */
-    public static int heapInit(int[] arr, int len) {
+    private static int heapInit(int[] arr, int len) {
         if (len < 2) {
             return 0;
         }
@@ -59,7 +62,7 @@ public class HeapSort {
      * @param root корень
      * @param len текущая длина массива
      */
-    public static void heapify(int[] arr, int root, int len) {
+    private static void heapify(int[] arr, int root, int len) {
         if (root < len / 2) {
             int right = (root + 1) * 2;
             int left = right - 1;
