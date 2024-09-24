@@ -2,11 +2,12 @@ package org.example;
 
 public class Main {
     public static void main(String[] args) {
-        Expression e = new Variable("x");
-        try {
-            System.out.println(e.eval("y=10"));
-        } catch (IllegalArgumentException e1) {
-            System.out.println(e1.getMessage());
-        }
+        Expression e = new Add(new Number(3), new Mul(new Number(2),
+                new Variable("x")));
+        System.out.println(e.print());
+        Expression de = e.derivative("x");
+        System.out.println(de.print());
+        int result = e.eval("x = 10; y = 13");
+        System.out.println(result);
     }
 }

@@ -28,6 +28,7 @@ public class Variable extends Expression{
                 return Integer.parseInt(pair[1].trim());
             }
         }
-        throw new IllegalArgumentException("Переменная " + name + " не найдена в выражении.");
+        System.out.println("Variable " + name + " not found, answer incorrect\n");
+        return -1;
     }
 }
