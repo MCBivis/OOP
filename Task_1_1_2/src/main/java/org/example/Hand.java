@@ -47,12 +47,12 @@ public class Hand {
      * @return Строковое представление карт в руке в формате "[карта1, карта2, ...]".
      */
     public String HandShow() {
-        String temp = "[";  // Открываем квадратную скобку
+        StringBuilder temp =new StringBuilder("[");  // Открываем квадратную скобку
         for (int i = 0; i < InHand - 1; i++) {
-            temp += cards[i].CardShow() + ", ";  // Добавляем карты через запятую
+            temp.append(cards[i].CardShow()).append(", ");  // Добавляем карты через запятую
         }
-        temp += cards[InHand - 1].CardShow();    // Добавляем последнюю карту
-        return temp + "]";  // Закрываем квадратную скобку и возвращаем строку
+        temp.append(cards[InHand - 1].CardShow());    // Добавляем последнюю карту
+        return temp.append("]").toString();  // Закрываем квадратную скобку и возвращаем строку
     }
 
     /**
@@ -62,12 +62,12 @@ public class Hand {
      * @return Строковое представление карт в формате "[карта1, закрытая карта]".
      */
     public String HandShow(int hidden) {
-        String temp = "[";  // Открываем квадратную скобку
+        StringBuilder temp =new StringBuilder("[");  // Открываем квадратную скобку
         for (int i = 0; i < InHand - 1; i++) {
-            temp += cards[i].CardShow() + ", ";  // Добавляем открытые карты
+            temp.append(cards[i].CardShow()).append(", ");  // Добавляем открытые карты
         }
-        temp += "<закрытая карта>";  // Последняя карта скрыта
-        return temp + "]";  // Закрываем квадратную скобку и возвращаем строку
+        temp.append("<закрытая карта>");  // Последняя карта скрыта
+        return temp.append("]").toString();  // Закрываем квадратную скобку и возвращаем строку
     }
 
     /**
