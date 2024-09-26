@@ -3,20 +3,21 @@ package org.example;
 public class Variable extends Expression{
     private final String name;
 
-    public Variable(String name) {
+    public Variable(String name,IPrintable printable) {
+        super(printable);
         this.name = name;
     }
 
-    public String print() {
-        return name;
+    public void print() {
+        printable.print(name);
     }
 
     public Expression derivative(String variable) {
         if (name.equals(variable)) {
-            return new Number (1);
+            return new Number (1,printable);
         }
         else {
-            return new Number (0);
+            return new Number (0,printable);
         }
     }
 

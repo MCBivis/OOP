@@ -3,22 +3,29 @@ package org.example;
 public class Div extends Expression{
     private final Expression left,right;
 
-    public Div(Expression left, Expression right) {
+    public Div(Expression left, Expression right, IPrintable printable) {
+        super(printable);
         this.left = left;
         this.right = right;
     }
 
-    public String print(){
-        return "(" + left.print() + "/" + right.print() + ")";
+    public void print(){
+        printable.print("(");
+        left.print();
+        printable.print("/");
+        right.print();
+        printable.print(")");
     }
 
     public Expression derivative(String variable) {
         return new Div(
                 new Sub(
-                        new Mul(left.derivative(variable), right),
-                        new Mul(left, right.derivative(variable))
+                        new Mul(left.derivative(variable), right,printable),
+                        new Mul(left, right.derivative(variable),printable),
+                        printable
                 ),
-                new Mul(right, right)
+                new Mul(right, right,printable),
+                printable
         );
     }
 
