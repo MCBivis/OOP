@@ -68,7 +68,8 @@ public class Div extends Expression {
     /**
      * Упрощает выражение деления, следуя следующим правилам:
      * a. Если оба операнда являются числами, возвращает результат их деления.
-     * b. В остальных случаях возвращает новое упрощённое выражение.
+     * b. Если оба операнда равны, возвращает 1.
+     * c. В остальных случаях возвращает новое упрощённое выражение.
      *
      * @return упрощённое выражение
      */
@@ -79,6 +80,10 @@ public class Div extends Expression {
 
         if (simplifiedLeft instanceof Number && simplifiedRight instanceof Number) {
             return new Number(simplifiedLeft.eval("") / simplifiedRight.eval(""), printable);
+        }
+
+        if (left.simplify().equals(right.simplify())) {
+            return new Number(1, printable);
         }
 
         return new Div(simplifiedLeft, simplifiedRight, printable);

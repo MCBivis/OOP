@@ -167,4 +167,35 @@ class ExpressionTest {
         Expression simplifiedDerivative = derivative.simplify();
         assertEquals(3, simplifiedDerivative.eval(""), "Производная от 3*x+5 по x должна быть 3.");
     }
+
+    @Test
+    void testAddZero() {
+        Expression addition = new Add(new Number(0, printable), new Number(0, printable), printable);
+        assertEquals(0, addition.eval(""), "0 + 0 должно вычисляться как 0.");
+    }
+
+    @Test
+    void testAddVariableWithZero() {
+        Expression addition = new Add(new Variable("x", printable), new Number(0, printable), printable);
+        assertEquals(3, addition.eval("x=3"), "x + 0 должно вычисляться как x.");
+    }
+
+    @Test
+    void testSubFromZero() {
+        Expression subtraction = new Sub(new Number(0, printable), new Number(5, printable), printable);
+        assertEquals(-5, subtraction.eval(""), "0 - 5 должно вычисляться как -5.");
+    }
+
+    @Test
+    void testDivByOne() {
+        Expression division = new Div(new Number(5, printable), new Number(1, printable), printable);
+        assertEquals(5, division.eval(""), "5 / 1 должно вычисляться как 5.");
+    }
+
+    @Test
+    void testDivVariableByItself() {
+        Expression division = new Div(new Variable("z", printable), new Variable("z", printable), printable);
+        assertEquals(1, division.eval("z=7"), "z / z должно вычисляться как 1 при z=7.");
+    }
+    
 }
