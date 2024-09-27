@@ -1,10 +1,27 @@
 package org.example;
 
+/**
+ * Класс Parser отвечает за разбор математического выражения
+ * и преобразование его в структуру объектов Expression.
+ */
 public class Parser {
+
+    /** Строка, содержащая выражение для разбора. */
     private String expr;
+
+    /** Текущая позиция в строке выражения. */
     private int pos;
+
+    /** Объект, реализующий интерфейс IPrintable, для вывода выражений. */
     private IPrintable printable;
 
+    /**
+     * Начинает процесс разбора выражения.
+     *
+     * @param expr      строка выражения, которое нужно разобрать
+     * @param printable объект, реализующий интерфейс IPrintable, для вывода
+     * @return объект Expression, представляющий разобранное выражение
+     */
     public Expression parse(String expr, IPrintable printable) {
         this.expr = expr;
         this.pos = 0;
@@ -12,6 +29,11 @@ public class Parser {
         return parseExpr();
     }
 
+    /**
+     * Разбирает выражение, состоящее из сумм и разностей.
+     *
+     * @return объект Expression, представляющий разобранное выражение
+     */
     private Expression parseExpr() {
         Expression result = parseTerm();
 
@@ -21,17 +43,22 @@ public class Parser {
             if (op == '+' || op == '-') {
                 pos++;
                 if (op == '+') {
-                    result = new Add(result, parseTerm(),printable);
-                }else {
-                    result = new Sub(result, parseTerm(),printable);
+                    result = new Add(result, parseTerm(), printable);
+                } else {
+                    result = new Sub(result, parseTerm(), printable);
                 }
-            }else {
+            } else {
                 break;
             }
         }
         return result;
     }
 
+    /**
+     * Разбирает терм, состоящий из произведений и делений.
+     *
+     * @return объект Expression, представляющий разобранный терм
+     */
     private Expression parseTerm() {
         Expression result = parseFactor();
 
@@ -41,9 +68,9 @@ public class Parser {
             if (operator == '*' || operator == '/') {
                 pos++;
                 if (operator == '*') {
-                    result = new Mul(result, parseFactor(),printable);
+                    result = new Mul(result, parseFactor(), printable);
                 } else {
-                    result = new Div(result, parseFactor(),printable);
+                    result = new Div(result, parseFactor(), printable);
                 }
             } else {
                 break;
@@ -52,6 +79,12 @@ public class Parser {
         return result;
     }
 
+    /**
+     * Разбирает фактор, который может быть числом, переменной или
+     * вложенным выражением в скобках.
+     *
+     * @return объект Expression, представляющий разобранный фактор
+     */
     private Expression parseFactor() {
         char ch = expr.charAt(pos);
 
@@ -66,26 +99,36 @@ public class Parser {
         if (ch == '(') {
             pos++;
             Expression result = parseExpr();
-            pos++;
+            pos++; // Пропускаем закрывающую скобку
             return result;
         }
 
-        return new Number(-1,printable);
+        return new Number(-1, printable); // Возвращаем "ошибочное" значение
     }
 
+    /**
+     * Разбирает число в строке и создает объект Number.
+     *
+     * @return объект Number, представляющий разобранное число
+     */
     private Expression parseNumber() {
         StringBuilder number = new StringBuilder();
         while (pos < expr.length() && Character.isDigit(expr.charAt(pos))) {
             number.append(expr.charAt(pos++));
         }
-        return new Number(Integer.parseInt(number.toString()),printable);
+        return new Number(Integer.parseInt(number.toString()), printable);
     }
 
+    /**
+     * Разбирает переменную в строке и создает объект Variable.
+     *
+     * @return объект Variable, представляющий разобранную переменную
+     */
     private Expression parseVariable() {
         StringBuilder variable = new StringBuilder();
         while (pos < expr.length() && Character.isLetter(expr.charAt(pos))) {
             variable.append(expr.charAt(pos++));
         }
-        return new Variable(variable.toString(),printable);
+        return new Variable(variable.toString(), printable);
     }
 }

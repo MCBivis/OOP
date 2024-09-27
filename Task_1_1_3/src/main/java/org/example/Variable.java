@@ -1,26 +1,54 @@
 package org.example;
 
-public class Variable extends Expression{
+/**
+ * Класс Variable представляет переменную в математическом выражении.
+ */
+public class Variable extends Expression {
+
+    /** Имя переменной. */
     private final String name;
 
-    public Variable(String name,IPrintable printable) {
+    /**
+     * Конструктор для создания объекта Variable.
+     *
+     * @param name      имя переменной
+     * @param printable объект, реализующий интерфейс IPrintable, для вывода
+     */
+    public Variable(String name, IPrintable printable) {
         super(printable);
         this.name = name;
     }
 
+    /**
+     * Выводит имя переменной.
+     */
+    @Override
     public void print() {
         printable.print(name);
     }
 
+    /**
+     * Вычисляет производную переменной по заданной переменной.
+     *
+     * @param variable переменная, по которой нужно взять производную
+     * @return 1, если переменная равна заданной, в противном случае 0
+     */
+    @Override
     public Expression derivative(String variable) {
         if (name.equals(variable)) {
-            return new Number (1,printable);
-        }
-        else {
-            return new Number (0,printable);
+            return new Number(1, printable);
+        } else {
+            return new Number(0, printable);
         }
     }
 
+    /**
+     * Вычисляет значение переменной для заданных переменных.
+     *
+     * @param vars строка, содержащая значения переменных
+     * @return значение переменной, или -1, если переменная не найдена
+     */
+    @Override
     public int eval(String vars) {
         String[] assignments = vars.split(";");
         for (String assignment : assignments) {
@@ -29,7 +57,16 @@ public class Variable extends Expression{
                 return Integer.parseInt(pair[1].trim());
             }
         }
-        System.out.println("Variable " + name + " not found, answer incorrect\n");
-        return -1;
+        return -1; // Переменная не найдена
+    }
+
+    /**
+     * Возвращает текущую переменную без изменений.
+     *
+     * @return данная переменная
+     */
+    @Override
+    public Expression simplify() {
+        return this;
     }
 }
