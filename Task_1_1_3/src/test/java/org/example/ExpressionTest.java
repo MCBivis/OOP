@@ -35,11 +35,9 @@ class ExpressionTest {
     @Test
     void testSimplifyExpression() {
         Expression complex = new Sub(
-                new Mul(
-                        new Number(0, printable),
+                new Mul(new Number(0, printable),
                         new Add(new Number(5, printable), new Number(3, printable), printable),
-                        printable
-                ),
+                        printable),
                 new Sub(new Variable("x", printable), new Variable("x", printable), printable),
                 printable
         );
