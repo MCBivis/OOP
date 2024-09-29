@@ -6,7 +6,7 @@ package org.example;
 public class Variable extends Expression {
 
     /** Имя переменной. */
-    private final String name;
+    public final String name;
 
     /**
      * Конструктор для создания объекта Variable.

@@ -69,7 +69,7 @@ public class Sub extends Expression {
             return new Number(left.simplify().eval("") - right.simplify().eval(""), printable);
         }
 
-        if (left.simplify().equals(right.simplify())) {
+        if (left.simplify() instanceof Variable && right.simplify() instanceof Variable && (((Variable) left.simplify()).name).equals(((Variable) right.simplify()).name)) {
             return new Number(0, printable);
         }
 

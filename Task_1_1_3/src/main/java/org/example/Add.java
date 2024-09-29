@@ -60,7 +60,8 @@ public class Add extends Expression {
     /**
      * Упрощает выражение, следуя правилам:
      * a. Если оба операнды являются числами, возвращает результат их сложения.
-     * b. В остальных случаях возвращает новое упрощённое выражение.
+     * b. Если одна из операнд равна нулю, возвращает вторую.
+     * c. В остальных случаях возвращает новое упрощённое выражение.
      *
      * @return упрощённое выражение
      */
@@ -71,6 +72,13 @@ public class Add extends Expression {
 
         if (simplifiedLeft instanceof Number && simplifiedRight instanceof Number) {
             return new Number(simplifiedLeft.eval("") + simplifiedRight.eval(""), printable);
+        }
+
+        if (simplifiedLeft.eval("") == 0) {
+            return simplifiedRight;
+        }
+        if (simplifiedRight.eval("") == 0) {
+            return simplifiedLeft;
         }
 
         return new Add(simplifiedLeft, simplifiedRight, printable);
