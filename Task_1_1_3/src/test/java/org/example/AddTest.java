@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class AddTest {
 
-    /** Объект для вывода в консоль, используемый для тестирования. */
+    /** Объект для печати результатов тестов. */
     private static final IPrintable printable = new PrintSout();
 
     /**
@@ -74,17 +74,6 @@ class AddTest {
         Expression addition = new Add(new Number(3, printable), new Number(5, printable), printable);
         Expression simplified = addition.simplify();
         assertEquals(8, simplified.eval(""), "Упрощённое выражение должно быть равно 8.");
-    }
-
-    /**
-     * Тест для проверки печати выражения сложения.
-     * Ожидается, что выражение x + 5 выводится в формате (x+5).
-     */
-    @Test
-    void testPrintAddExpression() {
-        Expression addition = new Add(new Variable("x", printable), new Number(5, printable), printable);
-        // Проверяем вывод выражения в консоль (визуальная проверка)
-        addition.print();  // Ожидаемый вывод: (x+5)
     }
 
     /**
