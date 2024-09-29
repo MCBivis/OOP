@@ -341,7 +341,8 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 <pre class="methodSignature">public&nbsp;<a href="Expression.html" title="class in org.example">Expression</a>&nbsp;simplify()</pre>
 <div class="block">Упрощает выражение, следуя правилам:
  a. Если оба операнды являются числами, возвращает результат их сложения.
- b. В остальных случаях возвращает новое упрощённое выражение.</div>
+ b. Если одна из операнд равна нулю, возвращает вторую.
+ c. В остальных случаях возвращает новое упрощённое выражение.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Expression.html#simplify()">simplify</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in org.example">Expression</a></code></dd>
