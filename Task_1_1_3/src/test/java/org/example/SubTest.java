@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Юнит-тесты для класса Sub, который реализует операцию вычитания двух выражений.
+ * Тестовый класс для проверки функциональности класса Sub.
  */
 class SubTest {
 
