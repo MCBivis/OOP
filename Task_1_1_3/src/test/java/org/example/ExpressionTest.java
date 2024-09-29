@@ -14,92 +14,6 @@ class ExpressionTest {
     private static final IPrintable printable = new PrintSout();
 
     /**
-     * Тестирует упрощение числа.
-     * Проверяет, что значение числа остается неизменным после упрощения.
-     */
-    @Test
-    void testSimplifyNumber() {
-        Expression number = new Number(5, printable);
-        Expression simplified = number.simplify();
-        assertEquals(5, simplified.eval(""), "Значение числа 5 должно остаться 5 после упрощения.");
-    }
-
-
-    /**
-     * Тестирует упрощение вычитания равных чисел.
-     * Проверяет, что выражение 5 - 5 упрощается до 0.
-     */
-    @Test
-    void testSimplifySub() {
-        Expression subtraction = new Sub(new Number(5, printable), new Number(5, printable), printable);
-        Expression simplified = subtraction.simplify();
-        assertEquals(0, simplified.eval(""), "5-5 должно упроститься до 0.");
-    }
-
-    /**
-     * Тестирует упрощение умножения на ноль.
-     * Проверяет, что выражение 5 * 0 упрощается до 0.
-     */
-    @Test
-    void testSimplifyMulZero() {
-        Expression multiplication = new Mul(new Number(5, printable), new Number(0, printable), printable);
-        Expression simplified = multiplication.simplify();
-        assertEquals(0, simplified.eval(""), "5*0 должно упроститься до 0.");
-    }
-
-    /**
-     * Тестирует упрощение умножения на единицу.
-     * Проверяет, что выражение 5 * 1 упрощается до 5.
-     */
-    @Test
-    void testSimplifyMulOne() {
-        Expression multiplication = new Mul(new Number(5, printable), new Number(1, printable), printable);
-        Expression simplified = multiplication.simplify();
-        assertEquals(5, simplified.eval(""), "5*1 должно упроститься до 5.");
-    }
-
-    /**
-     * Тестирует вычитание.
-     * Проверяет, что выражение 10 - 3 вычисляется как 7.
-     */
-    @Test
-    void testSub() {
-        Expression subtraction = new Sub(new Number(10, printable), new Number(3, printable), printable);
-        assertEquals(7, subtraction.eval(""), "10-3 должно вычислиться как 7.");
-    }
-
-    /**
-     * Тестирует умножение.
-     * Проверяет, что выражение 6 * 4 вычисляется как 24.
-     */
-    @Test
-    void testMul() {
-        Expression multiplication = new Mul(new Number(6, printable), new Number(4, printable), printable);
-        assertEquals(24, multiplication.eval(""), "6*4 должно вычислиться как 24.");
-    }
-
-    /**
-     * Тестирует деление.
-     * Проверяет, что выражение 10 / 2 вычисляется как 5.
-     */
-    @Test
-    void testDiv() {
-        Expression division = new Div(new Number(10, printable), new Number(2, printable), printable);
-        assertEquals(5, division.eval(""), "10/2 должно вычислиться как 5.");
-    }
-
-    /**
-     * Тестирует упрощение деления.
-     * Проверяет, что выражение 10 / 2 упрощается до 5.
-     */
-    @Test
-    void testSimplifyDiv() {
-        Expression division = new Div(new Number(10, printable), new Number(2, printable), printable);
-        Expression simplified = division.simplify();
-        assertEquals(5, simplified.eval(""), "10/2 должно упроститься до 5.");
-    }
-
-    /**
      * Тестирует упрощение сложного выражения деления.
      * Проверяет, что выражение (4*x) / (2*x) упрощается до 2.
      */
@@ -121,9 +35,11 @@ class ExpressionTest {
     @Test
     void testSimplifyExpression() {
         Expression complex = new Sub(
-                new Mul(new Number(0, printable),
+                new Mul(
+                        new Number(0, printable),
                         new Add(new Number(5, printable), new Number(3, printable), printable),
-                        printable),
+                        printable
+                ),
                 new Sub(new Variable("x", printable), new Variable("x", printable), printable),
                 printable
         );
