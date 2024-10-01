@@ -51,6 +51,7 @@ loadScripts(document, 'script');</script>
 <!--   -->
 </a>
 <ul class="navList" title="Navigation">
+<li><a href="../../index.html">Overview</a></li>
 <li><a href="package-summary.html">Package</a></li>
 <li class="navBarCell1Rev">Class</li>
 <li><a href="package-tree.html">Tree</a></li>
@@ -114,7 +115,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== START OF CLASS DATA ======== -->
 <main role="main">
 <div class="header">
-<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.example</a></div>
+<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.expressions</a></div>
 <h2 title="Class Mul" class="title">Class Mul</h2>
 </div>
 <div class="contentContainer">
@@ -122,10 +123,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li><a href="Expression.html" title="class in org.example">org.example.Expression</a></li>
+<li><a href="Expression.html" title="class in org.expressions">org.expressions.Expression</a></li>
 <li>
 <ul class="inheritance">
-<li>org.example.Mul</li>
+<li>org.expressions.Mul</li>
 </ul>
 </li>
 </ul>
@@ -136,7 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <hr>
 <pre>public class <span class="typeNameLabel">Mul</span>
-extends <a href="Expression.html" title="class in org.example">Expression</a></pre>
+extends <a href="Expression.html" title="class in org.expressions">Expression</a></pre>
 <div class="block">Класс Mul представляет операцию умножения двух выражений.</div>
 </li>
 </ul>
@@ -152,10 +153,10 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 </a>
 <h3>Field Summary</h3>
 <ul class="blockList">
-<li class="blockList"><a id="fields.inherited.from.class.org.example.Expression">
+<li class="blockList"><a id="fields.inherited.from.class.org.expressions.Expression">
 <!--   -->
 </a>
-<h3>Fields inherited from class&nbsp;org.example.<a href="Expression.html" title="class in org.example">Expression</a></h3>
+<h3>Fields inherited from class&nbsp;org.expressions.<a href="Expression.html" title="class in org.expressions">Expression</a></h3>
 <code><a href="Expression.html#printable">printable</a></code></li>
 </ul>
 </li>
@@ -175,9 +176,9 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.example.Expression,org.example.Expression,org.example.IPrintable)">Mul</a></span>&#8203;(<a href="Expression.html" title="class in org.example">Expression</a>&nbsp;left,
-   <a href="Expression.html" title="class in org.example">Expression</a>&nbsp;right,
-   <a href="IPrintable.html" title="interface in org.example">IPrintable</a>&nbsp;printable)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.expressions.Expression,org.expressions.Expression,org.Printable.IPrintable)">Mul</a></span>&#8203;(<a href="Expression.html" title="class in org.expressions">Expression</a>&nbsp;left,
+   <a href="Expression.html" title="class in org.expressions">Expression</a>&nbsp;right,
+   <a href="../Printable/IPrintable.html" title="interface in org.Printable">IPrintable</a>&nbsp;printable)</code></th>
 <td class="colLast">
 <div class="block">Конструктор для создания объекта умножения.</div>
 </td>
@@ -201,7 +202,7 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="Expression.html" title="class in org.example">Expression</a></code></td>
+<td class="colFirst"><code><a href="Expression.html" title="class in org.expressions">Expression</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#derivative(java.lang.String)">derivative</a></span>&#8203;(java.lang.String&nbsp;variable)</code></th>
 <td class="colLast">
 <div class="block">Вычисляет производную данного выражения по заданной переменной
@@ -223,7 +224,7 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="Expression.html" title="class in org.example">Expression</a></code></td>
+<td class="colFirst"><code><a href="Expression.html" title="class in org.expressions">Expression</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#simplify()">simplify</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Упрощает выражение умножения, следуя заданным правилам:
@@ -254,15 +255,15 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a id="&lt;init&gt;(org.example.Expression,org.example.Expression,org.example.IPrintable)">
+<a id="&lt;init&gt;(org.expressions.Expression,org.expressions.Expression,org.Printable.IPrintable)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Mul</h4>
-<pre>public&nbsp;Mul&#8203;(<a href="Expression.html" title="class in org.example">Expression</a>&nbsp;left,
-           <a href="Expression.html" title="class in org.example">Expression</a>&nbsp;right,
-           <a href="IPrintable.html" title="interface in org.example">IPrintable</a>&nbsp;printable)</pre>
+<pre>public&nbsp;Mul&#8203;(<a href="Expression.html" title="class in org.expressions">Expression</a>&nbsp;left,
+           <a href="Expression.html" title="class in org.expressions">Expression</a>&nbsp;right,
+           <a href="../Printable/IPrintable.html" title="interface in org.Printable">IPrintable</a>&nbsp;printable)</pre>
 <div class="block">Конструктор для создания объекта умножения.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -292,7 +293,7 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 <div class="block">Выводит выражение умножения в формате "(left * right)".</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Expression.html#print()">print</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in org.example">Expression</a></code></dd>
+<dd><code><a href="Expression.html#print()">print</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in org.expressions">Expression</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -302,12 +303,12 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 <ul class="blockList">
 <li class="blockList">
 <h4>derivative</h4>
-<pre class="methodSignature">public&nbsp;<a href="Expression.html" title="class in org.example">Expression</a>&nbsp;derivative&#8203;(java.lang.String&nbsp;variable)</pre>
+<pre class="methodSignature">public&nbsp;<a href="Expression.html" title="class in org.expressions">Expression</a>&nbsp;derivative&#8203;(java.lang.String&nbsp;variable)</pre>
 <div class="block">Вычисляет производную данного выражения по заданной переменной
  с использованием правила произведения.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Expression.html#derivative(java.lang.String)">derivative</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in org.example">Expression</a></code></dd>
+<dd><code><a href="Expression.html#derivative(java.lang.String)">derivative</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in org.expressions">Expression</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>variable</code> - переменная, по которой необходимо взять производную</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -325,7 +326,7 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 <div class="block">Вычисляет значение выражения на основе переданных значений переменных.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Expression.html#eval(java.lang.String)">eval</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in org.example">Expression</a></code></dd>
+<dd><code><a href="Expression.html#eval(java.lang.String)">eval</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in org.expressions">Expression</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>vars</code> - строка с переменными и их значениями</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -339,7 +340,7 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 <ul class="blockListLast">
 <li class="blockList">
 <h4>simplify</h4>
-<pre class="methodSignature">public&nbsp;<a href="Expression.html" title="class in org.example">Expression</a>&nbsp;simplify()</pre>
+<pre class="methodSignature">public&nbsp;<a href="Expression.html" title="class in org.expressions">Expression</a>&nbsp;simplify()</pre>
 <div class="block">Упрощает выражение умножения, следуя заданным правилам:
  a. Если оба операнда являются числами, возвращает результат их произведения.
  b. Если один из операндов равен 0, возвращает 0.
@@ -347,7 +348,7 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
  d. В остальных случаях возвращает новое упрощённое выражение.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="Expression.html#simplify()">simplify</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in org.example">Expression</a></code></dd>
+<dd><code><a href="Expression.html#simplify()">simplify</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in org.expressions">Expression</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>упрощённое выражение</dd>
 </dl>
@@ -373,6 +374,7 @@ extends <a href="Expression.html" title="class in org.example">Expression</a></p
 <!--   -->
 </a>
 <ul class="navList" title="Navigation">
+<li><a href="../../index.html">Overview</a></li>
 <li><a href="package-summary.html">Package</a></li>
 <li class="navBarCell1Rev">Class</li>
 <li><a href="package-tree.html">Tree</a></li>
