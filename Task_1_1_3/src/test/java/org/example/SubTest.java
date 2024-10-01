@@ -1,5 +1,12 @@
 package org.example;
 
+import org.Printable.IPrintable;
+import org.Printable.PrintSout;
+import org.expressions.Expression;
+import org.expressions.Mul;
+import org.expressions.Number;
+import org.expressions.Sub;
+import org.expressions.Variable;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,8 +25,8 @@ class SubTest {
      */
     @Test
     void testEval() {
-        Expression subtraction = new Sub(new Number(10, printable),
-                new Number(4, printable), printable);
+        Expression subtraction = new Sub(new org.expressions.Number(10, printable),
+                new org.expressions.Number(4, printable), printable);
 
         assertEquals(6, subtraction.eval(""), "10 - 4 должно вычислиться как 6.");
     }
@@ -30,8 +37,8 @@ class SubTest {
      */
     @Test
     void testSimplifyNumbers() {
-        Expression subtraction = new Sub(new Number(10, printable),
-                new Number(5, printable), printable);
+        Expression subtraction = new Sub(new org.expressions.Number(10, printable),
+                new org.expressions.Number(5, printable), printable);
         Expression simplified = subtraction.simplify();
 
         assertEquals(5, simplified.eval(""), "10 - 5 должно упроститься до 5.");
@@ -57,8 +64,8 @@ class SubTest {
     @Test
     void testDerivative() {
         Expression subtraction = new Sub(
-                new Mul(new Number(3, printable), new Variable("x", printable), printable),
-                new Mul(new Number(2, printable), new Variable("x", printable), printable),
+                new Mul(new org.expressions.Number(3, printable), new Variable("x", printable), printable),
+                new Mul(new org.expressions.Number(2, printable), new Variable("x", printable), printable),
                 printable
         );
         Expression derivative = subtraction.derivative("x");

@@ -1,4 +1,4 @@
-package org.example;
+package org.Printable;
 
 /**
  * Класс PrintSout реализует интерфейс IPrintable и предназначен для

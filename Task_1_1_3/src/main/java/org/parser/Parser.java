@@ -1,4 +1,8 @@
-package org.example;
+package org.parser;
+
+import org.Printable.IPrintable;
+import org.expressions.*;
+import org.expressions.Number;
 
 /**
  * Класс Parser отвечает за разбор математического выражения

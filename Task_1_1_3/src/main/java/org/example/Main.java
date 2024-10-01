@@ -1,5 +1,10 @@
 package org.example;
 
+import org.Printable.*;
+import org.expressions.*;
+import org.expressions.Number;
+import org.parser.Parser;
+
 /**
  * Главный класс для запуска программы и демонстрации работы
  * математических выражений.
@@ -16,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         PrintSout sout = new PrintSout();
 
-        Expression e = new Sub(new Number(3, sout), new Mul(new Number(2, sout),
+        Expression e = new Add(new org.expressions.Number(3, sout), new Mul(new Number(2, sout),
                 new Variable("x", sout), sout), sout);
 
         e.print();
@@ -41,5 +46,9 @@ public class Main {
         Expression expr = parser.parse("5+10*(2-x)/4", sout);
         expr.print();
         System.out.println();
+
+        var ex = new Variable("x", sout);
+        var dex = ex.derivative("x");
+        dex.print();
     }
 }

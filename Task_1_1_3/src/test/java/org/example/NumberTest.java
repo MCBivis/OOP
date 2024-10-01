@@ -1,5 +1,9 @@
 package org.example;
 
+import org.Printable.IPrintable;
+import org.Printable.PrintSout;
+import org.expressions.Expression;
+import org.expressions.Number;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +21,7 @@ class NumberTest {
      */
     @Test
     void testEval() {
-        Expression number = new Number(10, printable);
+        Expression number = new org.expressions.Number(10, printable);
         assertEquals(10, number.eval(""), "Число 10 должно возвращать 10.");
     }
 
@@ -27,7 +31,7 @@ class NumberTest {
      */
     @Test
     void testDerivative() {
-        Expression number = new Number(10, printable);
+        Expression number = new org.expressions.Number(10, printable);
         Expression derivative = number.derivative("x");
         assertEquals(0, derivative.eval(""), "Производная числа 10 должна быть равна 0.");
     }

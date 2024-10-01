@@ -1,4 +1,6 @@
-package org.example;
+package org.expressions;
+
+import org.Printable.IPrintable;
 
 /**
  * Абстрактный класс Expression, представляющий математическое выражение.

@@ -1,4 +1,6 @@
-package org.example;
+package org.expressions;
+
+import org.Printable.IPrintable;
 
 /**
  * Класс Variable представляет переменную в математическом выражении.

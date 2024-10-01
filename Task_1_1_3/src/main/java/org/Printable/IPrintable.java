@@ -1,4 +1,4 @@
-package org.example;
+package org.Printable;
 
 /**
  * Интерфейс IPrintable определяет метод для вывода выражения.

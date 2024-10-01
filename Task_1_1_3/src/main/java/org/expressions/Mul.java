@@ -1,4 +1,6 @@
-package org.example;
+package org.expressions;
+
+import org.Printable.IPrintable;
 
 /**
  * Класс Mul представляет операцию умножения двух выражений.

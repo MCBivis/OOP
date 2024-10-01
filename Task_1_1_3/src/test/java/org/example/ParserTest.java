@@ -1,6 +1,10 @@
 package org.example;
 
+import org.Printable.*;
+import org.expressions.Expression;
+
 import org.junit.jupiter.api.Test;
+import org.parser.Parser;
 
 import static org.junit.jupiter.api.Assertions.*;
 

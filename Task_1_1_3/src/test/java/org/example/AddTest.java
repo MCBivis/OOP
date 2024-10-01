@@ -1,5 +1,11 @@
 package org.example;
 
+import org.Printable.IPrintable;
+import org.Printable.PrintSout;
+import org.expressions.Add;
+import org.expressions.Expression;
+import org.expressions.Number;
+import org.expressions.Variable;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +23,7 @@ class AddTest {
      */
     @Test
     void testEvalAddNumbers() {
-        Expression addition = new Add(new Number(3, printable), new Number(5, printable), printable);
+        Expression addition = new Add(new org.expressions.Number(3, printable), new org.expressions.Number(5, printable), printable);
         assertEquals(8, addition.eval(""), "3 + 5 должно вычисляться как 8.");
     }
 
@@ -27,7 +33,7 @@ class AddTest {
      */
     @Test
     void testEvalAddVariableAndNumber() {
-        Expression addition = new Add(new Variable("x", printable), new Number(5, printable), printable);
+        Expression addition = new Add(new Variable("x", printable), new org.expressions.Number(5, printable), printable);
         assertEquals(8, addition.eval("x=3"), "x + 5 должно вычисляться как 8 при x=3.");
     }
 
@@ -38,7 +44,7 @@ class AddTest {
     @Test
     void testDerivativeOfAdd() {
         Expression x = new Variable("x", printable);
-        Expression addition = new Add(x, new Number(5, printable), printable);
+        Expression addition = new Add(x, new org.expressions.Number(5, printable), printable);
         Expression derivative = addition.derivative("x");
         assertEquals(1, derivative.eval(""), "Производная от x + 5 по x должна быть 1.");
     }
@@ -49,7 +55,7 @@ class AddTest {
      */
     @Test
     void testSimplifyAddZeroLeft() {
-        Expression addition = new Add(new Number(0, printable), new Variable("x", printable), printable);
+        Expression addition = new Add(new org.expressions.Number(0, printable), new Variable("x", printable), printable);
         Expression simplified = addition.simplify();
         assertEquals("x", ((Variable) simplified).name, "0 + x должно упрощаться до x.");
     }
@@ -60,7 +66,7 @@ class AddTest {
      */
     @Test
     void testSimplifyAddZeroRight() {
-        Expression addition = new Add(new Variable("x", printable), new Number(0, printable), printable);
+        Expression addition = new Add(new Variable("x", printable), new org.expressions.Number(0, printable), printable);
         Expression simplified = addition.simplify();
         assertEquals("x", ((Variable) simplified).name, "x + 0 должно упрощаться до x.");
     }
@@ -71,7 +77,7 @@ class AddTest {
      */
     @Test
     void testSimplifyAddNumbers() {
-        Expression addition = new Add(new Number(3, printable), new Number(5, printable), printable);
+        Expression addition = new Add(new org.expressions.Number(3, printable), new Number(5, printable), printable);
         Expression simplified = addition.simplify();
         assertEquals(8, simplified.eval(""), "Упрощённое выражение должно быть равно 8.");
     }
