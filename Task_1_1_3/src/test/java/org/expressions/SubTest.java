@@ -1,14 +1,7 @@
-package org.example;
+package org.expressions;
 
-import org.Printable.IPrintable;
-import org.Printable.PrintSout;
-import org.expressions.Expression;
-import org.expressions.Mul;
-import org.expressions.Number;
-import org.expressions.Sub;
-import org.expressions.Variable;
+import org.Printable.*;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

@@ -30,7 +30,7 @@ public class Mul extends Expression {
      * Выводит выражение умножения в формате "(left * right)".
      */
     @Override
-    public void print() {
+    public void print() throws Exception{
         printable.print("(");
         left.print();
         printable.print("*");

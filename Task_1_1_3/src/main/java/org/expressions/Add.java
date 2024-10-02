@@ -28,7 +28,7 @@ public class Add extends Expression {
      * Выводит выражение сложения в формате "(left + right)".
      */
     @Override
-    public void print() {
+    public void print() throws Exception {
         printable.print("(");
         left.print();
         printable.print("+");

@@ -1,10 +1,10 @@
-package org.example;
+package org.expressions;
 
-import org.Printable.IPrintable;
-import org.Printable.PrintSout;
-import org.expressions.*;
-import org.expressions.Number;
+import org.Printable.*;
 import org.junit.jupiter.api.Test;
+import org.parser.Parser;
+
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +16,31 @@ class ExpressionTest {
 
     /** Объект для печати результатов тестов. */
     private static final IPrintable printable = new PrintSout();
+
+    /** Путь к файлу, в который будем записывать вывод метода print(). */
+    private static final String FILE_PATH = "test_output.txt";
+
+    /**
+     * Тест на правильность вывода выражения в файл.
+     * Проверяем, что выражение (x * 4) записывается в файл корректно.
+     */
+    @Test
+    void testPrintToFile() throws Exception {
+        IPrintable printable = new PrintFile(FILE_PATH);
+        Parser parser = new Parser();
+        Expression multiplication = new Mul(new Variable("x", printable), new Number(4, printable), printable);
+
+        multiplication.print();
+
+        String fileContent = parser.getExprFile(FILE_PATH);
+
+        assertEquals("(x*4)", fileContent, "Ожидается, что выражение (x * 4) будет записано в файл.");
+
+        File file = new File(FILE_PATH);
+        if (file.exists()) {
+            assertTrue(file.delete(), "Файл должен быть успешно удален.");
+        }
+    }
 
     /**
      * Тестирует упрощение сложного выражения деления.

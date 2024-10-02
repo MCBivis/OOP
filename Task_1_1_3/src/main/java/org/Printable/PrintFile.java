@@ -1,7 +1,6 @@
 package org.Printable;
 
 import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Класс PrintFile реализует интерфейс IPrintable и предназначен для
@@ -27,13 +26,9 @@ public class PrintFile implements IPrintable {
      * @param expression выражение, которое нужно записать в файл
      */
     @Override
-    public void print(String expression) {
-        try {
-            FileWriter writer = new FileWriter(fileName);
-            writer.write(expression);
-            writer.close(); // Закрытие потока записи
-        } catch (IOException e) {
-            System.out.println("Writing in file error: " + e.getMessage());
-        }
+    public void print(String expression) throws Exception{
+        FileWriter writer = new FileWriter(fileName, true);
+        writer.write(expression);
+        writer.close(); // Закрытие потока записи
     }
 }

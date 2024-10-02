@@ -24,7 +24,7 @@ public abstract class Expression {
     /**
      * Печатает текущее выражение с использованием объекта {@link IPrintable}.
      */
-    public abstract void print();
+    public abstract void print() throws Exception;
 
     /**
      * Вычисляет производную данного выражения по указанной переменной.

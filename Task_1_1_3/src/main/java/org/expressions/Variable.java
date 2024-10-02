@@ -25,7 +25,7 @@ public class Variable extends Expression {
      * Выводит имя переменной.
      */
     @Override
-    public void print() {
+    public void print() throws Exception{
         printable.print(name);
     }
 

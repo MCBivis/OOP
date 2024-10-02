@@ -23,32 +23,48 @@ public class Main {
 
         Expression e = new Add(new org.expressions.Number(3, sout), new Mul(new Number(2, sout),
                 new Variable("x", sout), sout), sout);
-
-        e.print();
-        System.out.println();
+        try {
+            e.print();
+            System.out.println();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
 
         Expression simpE = e.simplify();
-        simpE.print();
-        System.out.println();
+        try {
+            simpE.print();
+            System.out.println();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
 
         Expression de = e.derivative("x");
-        de.print();
-        System.out.println();
+        try {
+            de.print();
+            System.out.println();
+        }catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
 
         Expression simpDe = de.simplify();
-        simpDe.print();
-        System.out.println();
+        try {
+            simpDe.print();
+            System.out.println();
+        }catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
 
         int result = e.eval("x = 10; y = 13");
         System.out.println(result);
 
         Parser parser = new Parser();
-        Expression expr = parser.parse("5+10*(2-x)/4", sout);
-        expr.print();
+        System.out.println("Введите выражение.");
+        try{
+            var console = parser.parse(sout);
+            console.print();
+        }catch (Exception exception){
+            System.out.println(exception.getMessage());
+        }
         System.out.println();
-
-        var ex = new Variable("x", sout);
-        var dex = ex.derivative("x");
-        dex.print();
     }
 }

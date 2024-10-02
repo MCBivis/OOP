@@ -26,7 +26,7 @@ public class Number extends Expression {
      * Печатает значение числа.
      */
     @Override
-    public void print() {
+    public void print() throws Exception {
         printable.print(Integer.toString(value));
     }
 

@@ -28,7 +28,7 @@ public class Div extends Expression {
      * Выводит выражение деления в формате "(left / right)".
      */
     @Override
-    public void print() {
+    public void print() throws Exception{
         printable.print("(");
         left.print();
         printable.print("/");

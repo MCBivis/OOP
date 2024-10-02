@@ -1,5 +1,7 @@
 package org.parser;
 
+import java.io.FileReader;
+import java.util.Scanner;
 import org.Printable.IPrintable;
 import org.expressions.*;
 import org.expressions.Number;
@@ -19,18 +21,50 @@ public class Parser {
     /** Объект, реализующий интерфейс IPrintable, для вывода выражений. */
     private IPrintable printable;
 
+    /** Объект, для считывания символов с консоли. */
+    private static final Scanner scanner = new Scanner(System.in);
+
     /**
      * Начинает процесс разбора выражения.
      *
-     * @param expr      строка выражения, которое нужно разобрать
      * @param printable объект, реализующий интерфейс IPrintable, для вывода
      * @return объект Expression, представляющий разобранное выражение
+     * @throws Exception если выражение записано неверно
      */
-    public Expression parse(String expr, IPrintable printable) {
-        this.expr = expr;
+    public Expression parse(IPrintable printable) throws Exception {
+        this.expr = getExprSout();
         this.pos = 0;
         this.printable = printable;
-        return parseExpr();
+
+        Expression result = parseExpr();
+
+        if (pos != expr.length()) {
+            throw new IllegalArgumentException("Ошибка в выражении: лишний символ '" + expr.charAt(pos) + "'.");
+        }
+
+        return result;
+    }
+
+    /**
+     * Начинает процесс разбора выражения.
+     *
+     * @param printable объект, реализующий интерфейс IPrintable, для вывода
+     * @param fileName имя файла
+     * @return объект Expression, представляющий разобранное выражение
+     * @throws Exception если выражение записано неверно
+     */
+    public Expression parse(String fileName,IPrintable printable) throws Exception {
+        this.expr = getExprFile(fileName);
+        this.pos = 0;
+        this.printable = printable;
+
+        Expression result = parseExpr();
+
+        if (pos != expr.length()) {
+            throw new IllegalArgumentException("Ошибка в выражении: лишний символ '" + expr.charAt(pos) + "'.");
+        }
+
+        return result;
     }
 
     /**
@@ -90,6 +124,10 @@ public class Parser {
      * @return объект Expression, представляющий разобранный фактор
      */
     private Expression parseFactor() {
+        if (pos >= expr.length()) {
+            throw new RuntimeException("Ошибка: неожиданное завершение выражения.");
+        }
+
         char ch = expr.charAt(pos);
 
         if (Character.isDigit(ch)) {
@@ -103,11 +141,14 @@ public class Parser {
         if (ch == '(') {
             pos++;
             Expression result = parseExpr();
+            if (pos >= expr.length() || expr.charAt(pos) != ')') {
+                throw new RuntimeException("Ошибка: незакрытая скобка.");
+            }
             pos++; // Пропускаем закрывающую скобку
             return result;
         }
 
-        return new Number(-1, printable); // Возвращаем "ошибочное" значение
+        throw new RuntimeException("Ошибка: недопустимый символ '" + ch + "'.");
     }
 
     /**
@@ -134,5 +175,30 @@ public class Parser {
             variable.append(expr.charAt(pos++));
         }
         return new Variable(variable.toString(), printable);
+    }
+
+    /**
+     * Считывает выражение из консоли и убирает пробелы.
+     *
+     * @return объект String, представляющий выражение
+     */
+    private String getExprSout() {
+        String expression = scanner.nextLine();
+        return expression.replaceAll(" ","");
+    }
+
+    /**
+     * Считывает выражение из файла и убирает пробелы.
+     *
+     * @param fileName имя файла, с которого будем считывать выражение
+     * @return объект String, представляющий выражение
+     * @throws Exception если строка пустая
+     */
+    public String getExprFile(String fileName) throws Exception {
+        FileReader fileReader = new FileReader(fileName);
+        Scanner scannerFile = new Scanner(fileReader);
+        String expression = scannerFile.nextLine();
+        fileReader.close();
+        return expression.replaceAll(" ","");
     }
 }

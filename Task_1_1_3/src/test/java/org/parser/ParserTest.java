@@ -1,10 +1,9 @@
-package org.example;
+package org.parser;
 
 import org.Printable.*;
 import org.expressions.Expression;
 
 import org.junit.jupiter.api.Test;
-import org.parser.Parser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,8 +23,8 @@ class ParserTest {
      * Проверяет, что выражение "5" вычисляется как 5.
      */
     @Test
-    void testParseNumber() {
-        Expression expression = parser.parse("5", printable);
+    void testParseNumber() throws Exception {
+        Expression expression = parser.parse("5.txt", printable);
         assertEquals(5, expression.eval(""), "Число 5 должно вычисляться как 5.");
     }
 
@@ -34,8 +33,8 @@ class ParserTest {
      * Проверяет, что выражение "3+7" вычисляется как 10.
      */
     @Test
-    void testParseAdd() {
-        Expression expression = parser.parse("3+7", printable);
+    void testParseAdd() throws Exception {
+        Expression expression = parser.parse("3+7.txt", printable);
         assertEquals(10, expression.eval(""), "Выражение 3+7 должно вычисляться как 10.");
     }
 
@@ -44,8 +43,8 @@ class ParserTest {
      * Проверяет, что выражение "10-4" вычисляется как 6.
      */
     @Test
-    void testParseSub() {
-        Expression expression = parser.parse("10-4", printable);
+    void testParseSub() throws Exception {
+        Expression expression = parser.parse("10-4.txt", printable);
         assertEquals(6, expression.eval(""), "Выражение 10-4 должно вычисляться как 6.");
     }
 
@@ -54,8 +53,8 @@ class ParserTest {
      * Проверяет, что выражение "5*2" вычисляется как 10.
      */
     @Test
-    void testParseSimpleMultiplication() {
-        Expression expression = parser.parse("5*2", printable);
+    void testParseSimpleMultiplication() throws Exception {
+        Expression expression = parser.parse("5mul2.txt", printable);
         assertEquals(10, expression.eval(""), "Выражение 5*2 должно вычисляться как 10.");
     }
 
@@ -64,8 +63,8 @@ class ParserTest {
      * Проверяет, что выражение "8/2" вычисляется как 4.
      */
     @Test
-    void testParseSimpleDivision() {
-        Expression expression = parser.parse("8/2", printable);
+    void testParseSimpleDivision() throws Exception {
+        Expression expression = parser.parse("8div2.txt", printable);
         assertEquals(4, expression.eval(""), "Выражение 8/2 должно вычисляться как 4.");
     }
 
@@ -75,8 +74,8 @@ class ParserTest {
      * Проверяет, что выражение "(3+7)*(8/4)" вычисляется как 20.
      */
     @Test
-    void testParseComplexExpression() {
-        Expression expression = parser.parse("(3+7)*(8/4)", printable);
+    void testParseComplexExpression() throws Exception {
+        Expression expression = parser.parse("(3+7)mul(8div4).txt", printable);
         assertEquals(20, expression.eval(""), "Выражение (3+7)*(8/4) должно вычисляться как 20.");
     }
 
@@ -86,8 +85,49 @@ class ParserTest {
      * при значениях xxxx=3 и yy=2.
      */
     @Test
-    void testParseExpressionWithVariables() {
-        Expression expression = parser.parse("xxxx*(yy+2)", printable);
+    void testParseExpressionWithVariables() throws Exception {
+        Expression expression = parser.parse("xxxxmul(yy+2).txt", printable);
         assertEquals(12, expression.eval("xxxx=3;yy=2"), "Выражение xxxx*(yy+2) должно вычисляться как 12 при xxxx=3 и yy=2.");
     }
+
+    /**
+     * Тестирует разбор выражения с незакрытой скобкой.
+     * Ожидается, что будет выброшено исключение.
+     */
+    @Test
+    void testUnmatchedParenthesis() {
+        Exception exception = assertThrows(RuntimeException.class, () -> parser.parse("(1+2.txt", printable));
+        assertEquals("Ошибка: незакрытая скобка.", exception.getMessage());
+    }
+
+    /**
+     * Тестирует разбор пустого выражения.
+     * Ожидается, что будет выброшено исключение.
+     */
+    @Test
+    void testEmptyExpression() {
+        Exception exception = assertThrows(Exception.class, () -> parser.parse("empty.txt", printable));
+        assertEquals("Ошибка: неожиданное завершение выражения.", exception.getMessage());
+    }
+
+    /**
+     * Тестирует разбор выражения с некорректным символом.
+     * Ожидается, что будет выброшено исключение.
+     */
+    @Test
+    void testIncorrectSymbol() {
+        Exception exception = assertThrows(RuntimeException.class, () -> parser.parse("1+3+%.txt", printable));
+        assertEquals("Ошибка: недопустимый символ '%'.", exception.getMessage());
+    }
+
+    /**
+     * Тестирует разбор выражения с лишним символом.
+     * Ожидается, что будет выброшено исключение.
+     */
+    @Test
+    void testDivisionByEmpty() {
+        Exception exception = assertThrows(RuntimeException.class, () -> parser.parse("1+4@.txt", printable));
+        assertEquals("Ошибка в выражении: лишний символ '@'.", exception.getMessage());
+    }
+
 }
