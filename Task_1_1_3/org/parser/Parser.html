@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10};
+var data = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -177,9 +177,23 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getExprFile(java.lang.String)">getExprFile</a></span>&#8203;(java.lang.String&nbsp;fileName)</code></th>
+<td class="colLast">
+<div class="block">Считывает выражение из файла и убирает пробелы.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../expressions/Expression.html" title="class in org.expressions">Expression</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parse(java.lang.String,org.Printable.IPrintable)">parse</a></span>&#8203;(java.lang.String&nbsp;expr,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parse(java.lang.String,org.Printable.IPrintable)">parse</a></span>&#8203;(java.lang.String&nbsp;fileName,
      <a href="../Printable/IPrintable.html" title="interface in org.Printable">IPrintable</a>&nbsp;printable)</code></th>
+<td class="colLast">
+<div class="block">Начинает процесс разбора выражения.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="../expressions/Expression.html" title="class in org.expressions">Expression</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parse(org.Printable.IPrintable)">parse</a></span>&#8203;(<a href="../Printable/IPrintable.html" title="interface in org.Printable">IPrintable</a>&nbsp;printable)</code></th>
 <td class="colLast">
 <div class="block">Начинает процесс разбора выражения.</div>
 </td>
@@ -227,21 +241,62 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="parse(org.Printable.IPrintable)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>parse</h4>
+<pre class="methodSignature">public&nbsp;<a href="../expressions/Expression.html" title="class in org.expressions">Expression</a>&nbsp;parse&#8203;(<a href="../Printable/IPrintable.html" title="interface in org.Printable">IPrintable</a>&nbsp;printable)
+                 throws java.lang.Exception</pre>
+<div class="block">Начинает процесс разбора выражения.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>printable</code> - объект, реализующий интерфейс IPrintable, для вывода</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>объект Expression, представляющий разобранное выражение</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.Exception</code> - если выражение записано неверно</dd>
+</dl>
+</li>
+</ul>
 <a id="parse(java.lang.String,org.Printable.IPrintable)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>parse</h4>
+<pre class="methodSignature">public&nbsp;<a href="../expressions/Expression.html" title="class in org.expressions">Expression</a>&nbsp;parse&#8203;(java.lang.String&nbsp;fileName,
+                        <a href="../Printable/IPrintable.html" title="interface in org.Printable">IPrintable</a>&nbsp;printable)
+                 throws java.lang.Exception</pre>
+<div class="block">Начинает процесс разбора выражения.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>printable</code> - объект, реализующий интерфейс IPrintable, для вывода</dd>
+<dd><code>fileName</code> - имя файла</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>объект Expression, представляющий разобранное выражение</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.Exception</code> - если выражение записано неверно</dd>
+</dl>
+</li>
+</ul>
+<a id="getExprFile(java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>parse</h4>
-<pre class="methodSignature">public&nbsp;<a href="../expressions/Expression.html" title="class in org.expressions">Expression</a>&nbsp;parse&#8203;(java.lang.String&nbsp;expr,
-                        <a href="../Printable/IPrintable.html" title="interface in org.Printable">IPrintable</a>&nbsp;printable)</pre>
-<div class="block">Начинает процесс разбора выражения.</div>
+<h4>getExprFile</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getExprFile&#8203;(java.lang.String&nbsp;fileName)
+                             throws java.lang.Exception</pre>
+<div class="block">Считывает выражение из файла и убирает пробелы.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>expr</code> - строка выражения, которое нужно разобрать</dd>
-<dd><code>printable</code> - объект, реализующий интерфейс IPrintable, для вывода</dd>
+<dd><code>fileName</code> - имя файла, с которого будем считывать выражение</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>объект Expression, представляющий разобранное выражение</dd>
+<dd>объект String, представляющий выражение</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.Exception</code> - если строка пустая</dd>
 </dl>
 </li>
 </ul>
