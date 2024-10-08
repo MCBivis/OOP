@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface Graph {
     // Операции над графом
-    void addVertex(int vertex);
-    void removeVertex(int vertex);
+    void addVertex();
+    void removeVertex();
     void addEdge(int source, int destination);
     void removeEdge(int source, int destination);
 

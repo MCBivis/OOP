@@ -13,13 +13,8 @@ public class AdjacencyMatrixGraph implements Graph {
     }
 
     @Override
-    public void addVertex(int vertex) {
-        if (vertex >= numVertices) {
-            resizeMatrix(vertex + 1);
-        }
-    }
-
-    private void resizeMatrix(int newSize) {
+    public void addVertex() {
+        int newSize = numVertices + 1;
         int[][] newMatrix = new int[newSize][newSize];
         for (int i = 0; i < numVertices; i++) {
             for (int j = 0; j < numVertices; j++) {
@@ -31,9 +26,8 @@ public class AdjacencyMatrixGraph implements Graph {
     }
 
     @Override
-    public void removeVertex(int vertex) {
-        // Логика для удаления вершины
-        // В данном случае придется обновлять матрицу и удалять соответствующие строки и столбцы
+    public void removeVertex() {
+        numVertices--;
     }
 
     @Override
