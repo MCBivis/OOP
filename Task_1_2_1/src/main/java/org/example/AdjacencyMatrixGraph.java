@@ -2,80 +2,110 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.FileReader;
+import java.util.Scanner;
 
 public class AdjacencyMatrixGraph implements Graph {
-    private int[][] matrix;
+    private List<List<Integer>> matrix;
     private int numVertices;
 
-    public AdjacencyMatrixGraph(int numVertices) {
-        this.numVertices = numVertices;
-        matrix = new int[numVertices][numVertices];
+    // Конструктор: инициализируем граф с заданным числом вершин
+    public AdjacencyMatrixGraph(int vertices) {
+        this.numVertices = vertices;
+        this.matrix = new ArrayList<>(vertices);
+
+        // Инициализируем матрицу нулями
+        for (int i = 0; i < vertices; i++) {
+            List<Integer> row = new ArrayList<>(vertices);
+            for (int j = 0; j < vertices; j++) {
+                row.add(0);
+            }
+            matrix.add(row);
+        }
     }
 
     @Override
     public void addVertex() {
-        int newSize = numVertices + 1;
-        int[][] newMatrix = new int[newSize][newSize];
+        numVertices++;
+        // Добавляем новую строку с нулями
+        List<Integer> row = new ArrayList<>(numVertices);
         for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                newMatrix[i][j] = matrix[i][j];
-            }
+            row.add(0);
         }
-        matrix = newMatrix;
-        numVertices = newSize;
+        matrix.add(row);
+
+        // Добавляем 0 к каждой уже существующей строке
+        for (int i = 0; i < numVertices - 1; i++) {
+            matrix.get(i).add(0);
+        }
     }
 
     @Override
     public void removeVertex() {
+        if (numVertices == 0) return; // Нельзя удалить вершину, если граф пуст
         numVertices--;
+        matrix.remove(numVertices); // Удаляем последнюю строку
+
+        // Удаляем последний элемент из каждой строки
+        for (int i = 0; i < numVertices; i++) {
+            matrix.get(i).remove(numVertices);
+        }
     }
 
     @Override
     public void addEdge(int source, int destination) {
-        matrix[source][destination] = 1;
+        if (source < numVertices && destination < numVertices) {
+            matrix.get(source).set(destination, 1); // Устанавливаем связь
+        }
     }
 
     @Override
     public void removeEdge(int source, int destination) {
-        matrix[source][destination] = 0;
+        if (source < numVertices && destination < numVertices) {
+            matrix.get(source).set(destination, 0); // Убираем связь
+        }
     }
 
     @Override
     public List<Integer> getNeighbors(int vertex) {
         List<Integer> neighbors = new ArrayList<>();
-        for (int i = 0; i < numVertices; i++) {
-            if (matrix[vertex][i] == 1) {
-                neighbors.add(i);
+        if (vertex < numVertices) {
+            for (int i = 0; i < numVertices; i++) {
+                if (matrix.get(vertex).get(i) == 1) {
+                    neighbors.add(i);
+                }
             }
         }
         return neighbors;
     }
 
     @Override
-    public void readFromFile(String filePath) {
-        // Реализация чтения из файла
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AdjacencyMatrixGraph that = (AdjacencyMatrixGraph) o;
-        if (numVertices != that.numVertices) return false;
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                if (matrix[i][j] != that.matrix[i][j]) return false;
-            }
+    public void readFromFile(String filePath) throws Exception {
+        FileReader fileReader = new FileReader(filePath);
+        Scanner scannerFile = new Scanner(fileReader);
+        String line = scannerFile.nextLine();
+        fileReader.close();
+        String[] edges = line.split(" ");
+        for (String edge : edges) {
+            String[] pair = edge.split(",");
+            this.addEdge(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]));
         }
-        return true;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                sb.append(matrix[i][j] + " ");
+        sb.append("\t");
+        for (int i=0;i<numVertices;i++) {
+            sb.append(i).append(" ");
+        }
+        sb.append("\n\t");
+        sb.append("* ".repeat(numVertices));
+        sb.append("\n");
+        for (int i=0;i<numVertices;i++) {
+            sb.append(i).append(" * ");
+            for (Integer cell : matrix.get(i)) {
+                sb.append(cell).append(" ");
             }
             sb.append("\n");
         }
@@ -83,8 +113,15 @@ public class AdjacencyMatrixGraph implements Graph {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return this.toString().equals(o.toString());
+    }
+
+    @Override
     public List<Integer> topologicalSort() {
-        // Реализация топологической сортировки для матрицы смежности
+        // Реализация топологической сортировки
         return null;
     }
 }
