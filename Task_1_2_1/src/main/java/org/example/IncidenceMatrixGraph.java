@@ -7,63 +7,52 @@ import java.util.Scanner;
 import java.util.Stack;
 
 /**
- * Класс, представляющий направленный граф с использованием матрицы смежности.
+ * Класс, представляющий граф с помощью матрицы инцидентности.
  */
-public class AdjacencyMatrixGraph implements Graph {
+public class IncidenceMatrixGraph implements Graph {
     private final List<List<Integer>> matrix;
     private int numVertices;
+    private int numEdges;
 
     /**
-     * Конструктор, инициализирующий граф с заданным числом вершин.
+     * Конструктор, инициализирующий граф с заданным количеством вершин.
      *
      * @param vertices количество вершин в графе
      */
-    public AdjacencyMatrixGraph(int vertices) {
+    public IncidenceMatrixGraph(int vertices) {
         this.numVertices = vertices;
+        this.numEdges = 0;
         this.matrix = new ArrayList<>(vertices);
 
-        // Инициализируем матрицу нулями
+        // Инициализируем матрицу пустыми строками для каждой вершины
         for (int i = 0; i < vertices; i++) {
-            List<Integer> row = new ArrayList<>(vertices);
-            for (int j = 0; j < vertices; j++) {
-                row.add(0);
-            }
+            List<Integer> row = new ArrayList<>();
             matrix.add(row);
         }
     }
 
     /**
-     * Добавляет новую вершину в граф. Модифицирует матрицу смежности для учета новой вершины.
+     * Добавляет новую вершину в граф. Модифицирует матрицу инцидентности.
      */
     @Override
     public void addVertex() {
         numVertices++;
-        // Добавляем новую строку с нулями
-        List<Integer> row = new ArrayList<>(numVertices);
-        for (int i = 0; i < numVertices; i++) {
+        // Добавляем новую строку для новой вершины
+        List<Integer> row = new ArrayList<>();
+        for (int i = 0; i < numEdges; i++) {
             row.add(0);
         }
         matrix.add(row);
-
-        // Добавляем 0 к каждой уже существующей строке
-        for (int i = 0; i < numVertices - 1; i++) {
-            matrix.get(i).add(0);
-        }
     }
 
     /**
-     * Удаляет последнюю вершину из графа и модифицирует матрицу смежности.
+     * Удаляет последнюю вершину из графа.
      */
     @Override
     public void removeVertex() {
         if (numVertices == 0) return; // Нельзя удалить вершину, если граф пуст
         numVertices--;
-        matrix.remove(numVertices); // Удаляем последнюю строку
-
-        // Удаляем последний элемент из каждой строки
-        for (int i = 0; i < numVertices; i++) {
-            matrix.get(i).remove(numVertices);
-        }
+        matrix.remove(numVertices);
     }
 
     /**
@@ -75,7 +64,14 @@ public class AdjacencyMatrixGraph implements Graph {
     @Override
     public void addEdge(int source, int destination) {
         if (source < numVertices && destination < numVertices) { // Проверяем существование вершин
-            matrix.get(source).set(destination, 1);
+            // Добавляем новый столбец для ребра
+            for (int i = 0; i < numVertices; i++) {
+                matrix.get(i).add(0); // Инициализируем новый столбец нулями
+            }
+
+            matrix.get(source).set(numEdges, 1); // Исходная вершина (начало ребра)
+            matrix.get(destination).set(numEdges, 2); // Конечная вершина (конец ребра)
+            numEdges++;
         }
     }
 
@@ -87,8 +83,14 @@ public class AdjacencyMatrixGraph implements Graph {
      */
     @Override
     public void removeEdge(int source, int destination) {
-        if (source < numVertices && destination < numVertices) {
-            matrix.get(source).set(destination, 0);
+        for (int j = 0; j < numEdges; j++) {
+            if (matrix.get(source).get(j) == 1 && matrix.get(destination).get(j) == 2) {
+                for (int i = 0; i < numVertices; i++) {
+                    matrix.get(i).remove(j); // Удаляем столбец
+                }
+                numEdges--;
+                break;
+            }
         }
     }
 
@@ -102,9 +104,14 @@ public class AdjacencyMatrixGraph implements Graph {
     public List<Integer> getNeighbors(int vertex) {
         List<Integer> neighbors = new ArrayList<>();
         if (vertex < numVertices) {
-            for (int i = 0; i < numVertices; i++) {
-                if (matrix.get(vertex).get(i) == 1) {
-                    neighbors.add(i);
+            for (int j = 0; j < numEdges; j++) {
+                if (matrix.get(vertex).get(j) == 1) { // Если вершина — начальная вершина ребра
+                    for (int i = 0; i < numVertices; i++) {
+                        if (matrix.get(i).get(j) == 2) { // Найдём конечную вершину ребра
+                            neighbors.add(i);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -131,7 +138,7 @@ public class AdjacencyMatrixGraph implements Graph {
     }
 
     /**
-     * Возвращает строковое представление графа в виде матрицы смежности.
+     * Возвращает строковое представление графа в виде матрицы инцидентности.
      *
      * @return строковое представление графа
      */
@@ -139,16 +146,16 @@ public class AdjacencyMatrixGraph implements Graph {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\t");
-        for (int i = 0; i < numVertices; i++) {
+        for (int i = 0; i < numEdges; i++) {
             sb.append(i).append(" ");
         }
         sb.append("\n\t");
-        sb.append("* ".repeat(numVertices));
+        sb.append("* ".repeat(numEdges));
         sb.append("\n");
         for (int i = 0; i < numVertices; i++) {
             sb.append(i).append(" * ");
-            for (Integer cell : matrix.get(i)) {
-                sb.append(cell).append(" ");
+            for (int j = 0; j < numEdges; j++) {
+                sb.append(matrix.get(i).get(j)).append(" ");
             }
             sb.append("\n");
         }
@@ -181,14 +188,14 @@ public class AdjacencyMatrixGraph implements Graph {
 
         // Подсчет входных степеней вершин
         for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                if (matrix.get(i).get(j) == 1) {
-                    inDegree[j]++;
+            for (int j = 0; j < numEdges; j++) {
+                if (matrix.get(i).get(j) == 2) {
+                    inDegree[i]++;
                 }
             }
         }
 
-        // Поиск всех вершин с входной степенью 0
+        // Найдем все вершины с входной степенью 0
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < numVertices; i++) {
             if (inDegree[i] == 0) {

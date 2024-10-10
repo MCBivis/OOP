@@ -7,88 +7,74 @@ import java.util.Scanner;
 import java.util.Stack;
 
 /**
- * Класс, представляющий направленный граф с использованием матрицы смежности.
+ * Класс, представляющий граф с использованием списка смежности.
  */
-public class AdjacencyMatrixGraph implements Graph {
-    private final List<List<Integer>> matrix;
+public class AdjacencyListGraph implements Graph {
+    private final List<List<Integer>> adjList;
     private int numVertices;
 
     /**
-     * Конструктор, инициализирующий граф с заданным числом вершин.
+     * Конструктор, инициализирующий граф с заданным количеством вершин.
      *
      * @param vertices количество вершин в графе
      */
-    public AdjacencyMatrixGraph(int vertices) {
+    public AdjacencyListGraph(int vertices) {
         this.numVertices = vertices;
-        this.matrix = new ArrayList<>(vertices);
+        this.adjList = new ArrayList<>(vertices);
 
-        // Инициализируем матрицу нулями
+        // Инициализация списка смежности
         for (int i = 0; i < vertices; i++) {
-            List<Integer> row = new ArrayList<>(vertices);
-            for (int j = 0; j < vertices; j++) {
-                row.add(0);
-            }
-            matrix.add(row);
+            adjList.add(new ArrayList<>());
         }
     }
 
     /**
-     * Добавляет новую вершину в граф. Модифицирует матрицу смежности для учета новой вершины.
+     * Добавляет новую вершину в граф. Модифицирует список смежности.
      */
     @Override
     public void addVertex() {
         numVertices++;
-        // Добавляем новую строку с нулями
-        List<Integer> row = new ArrayList<>(numVertices);
-        for (int i = 0; i < numVertices; i++) {
-            row.add(0);
-        }
-        matrix.add(row);
-
-        // Добавляем 0 к каждой уже существующей строке
-        for (int i = 0; i < numVertices - 1; i++) {
-            matrix.get(i).add(0);
-        }
+        adjList.add(new ArrayList<>());
     }
 
     /**
-     * Удаляет последнюю вершину из графа и модифицирует матрицу смежности.
+     * Удаляет последнюю вершину из графа и все ребра, ведущие к ней.
      */
     @Override
     public void removeVertex() {
-        if (numVertices == 0) return; // Нельзя удалить вершину, если граф пуст
+        if (numVertices == 0) return; // Проверка на пустой граф
         numVertices--;
-        matrix.remove(numVertices); // Удаляем последнюю строку
+        adjList.remove(numVertices); // Удаляем последнюю вершину
 
-        // Удаляем последний элемент из каждой строки
-        for (int i = 0; i < numVertices; i++) {
-            matrix.get(i).remove(numVertices);
+        // Удаляем все ссылки на эту вершину из смежных списков
+        for (List<Integer> neighbors : adjList) {
+            neighbors.remove((Integer) numVertices); // Удаляем вершину как объект Integer
         }
     }
 
     /**
-     * Добавляет ребро между двумя вершинами.
+     * Добавляет направленное ребро между двумя вершинами.
      *
      * @param source      исходная вершина
      * @param destination целевая вершина
      */
     @Override
     public void addEdge(int source, int destination) {
-        if (source < numVertices && destination < numVertices) { // Проверяем существование вершин
-            matrix.get(source).set(destination, 1);
+        if (source < numVertices && destination < numVertices) { // Проверка существования вершин
+            adjList.get(source).add(destination);
         }
     }
 
     /**
-     * Удаляет ребро между двумя вершинами.
+     * Удаляет направленное ребро между двумя вершинами.
      *
      * @param source      исходная вершина
      * @param destination целевая вершина
      */
     @Override
     public void removeEdge(int source, int destination) {
-        if (source < numVertices && destination < numVertices) {
-            matrix.get(source).set(destination, 0);
+        if (source < numVertices && destination < numVertices) { // Проверка существования вершин
+            adjList.get(source).remove((Integer) destination); // Удаление ребра
         }
     }
 
@@ -96,19 +82,14 @@ public class AdjacencyMatrixGraph implements Graph {
      * Возвращает список соседних вершин для указанной вершины.
      *
      * @param vertex вершина для поиска соседей
-     * @return список соседних вершин
+     * @return список смежных вершин
      */
     @Override
     public List<Integer> getNeighbors(int vertex) {
-        List<Integer> neighbors = new ArrayList<>();
         if (vertex < numVertices) {
-            for (int i = 0; i < numVertices; i++) {
-                if (matrix.get(vertex).get(i) == 1) {
-                    neighbors.add(i);
-                }
-            }
+            return new ArrayList<>(adjList.get(vertex)); // Возвращаем копию списка смежных вершин
         }
-        return neighbors;
+        return new ArrayList<>();
     }
 
     /**
@@ -131,26 +112,15 @@ public class AdjacencyMatrixGraph implements Graph {
     }
 
     /**
-     * Возвращает строковое представление графа в виде матрицы смежности.
+     * Возвращает строковое представление графа в виде списка смежности.
      *
      * @return строковое представление графа
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\t");
         for (int i = 0; i < numVertices; i++) {
-            sb.append(i).append(" ");
-        }
-        sb.append("\n\t");
-        sb.append("* ".repeat(numVertices));
-        sb.append("\n");
-        for (int i = 0; i < numVertices; i++) {
-            sb.append(i).append(" * ");
-            for (Integer cell : matrix.get(i)) {
-                sb.append(cell).append(" ");
-            }
-            sb.append("\n");
+            sb.append(i).append(": ").append(adjList.get(i)).append("\n");
         }
         return sb.toString();
     }
@@ -169,7 +139,7 @@ public class AdjacencyMatrixGraph implements Graph {
     }
 
     /**
-     * Выполняет топологическую сортировку графа (алгоритм Кана).
+     * Выполняет топологическую сортировку графа с использованием алгоритма Кана.
      *
      * @return список вершин в топологическом порядке
      * @throws Exception если граф содержит цикл, сортировка невозможна
@@ -181,14 +151,12 @@ public class AdjacencyMatrixGraph implements Graph {
 
         // Подсчет входных степеней вершин
         for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                if (matrix.get(i).get(j) == 1) {
-                    inDegree[j]++;
-                }
+            for (int neighbor : adjList.get(i)) {
+                inDegree[neighbor]++;
             }
         }
 
-        // Поиск всех вершин с входной степенью 0
+        // Найдем все вершины с входной степенью 0
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < numVertices; i++) {
             if (inDegree[i] == 0) {
