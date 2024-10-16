@@ -68,7 +68,7 @@ public interface Graph {
      * Выполняет топологическую сортировку графа.
      *
      * @return список вершин в топологическом порядке
-     * @throws Exception если граф содержит цикл, сортировка невозможна
+     * @throws GraphCycleException если граф содержит цикл, сортировка невозможна
      */
-    List<Integer> topologicalSort() throws Exception;
+    List<Integer> topologicalSort() throws GraphCycleException;
 }

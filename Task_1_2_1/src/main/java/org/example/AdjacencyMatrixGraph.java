@@ -119,14 +119,16 @@ public class AdjacencyMatrixGraph implements Graph {
      */
     @Override
     public void readFromFile(String filePath) throws Exception {
-        FileReader fileReader = new FileReader(filePath);
-        Scanner scannerFile = new Scanner(fileReader);
-        String line = scannerFile.nextLine();
-        fileReader.close();
-        String[] edges = line.split(" ");
-        for (String edge : edges) {
-            String[] pair = edge.split(",");
-            this.addEdge(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]));
+        try (FileReader fileReader = new FileReader(filePath)) {
+            Scanner scannerFile = new Scanner(fileReader);
+            String line = scannerFile.nextLine();
+            String[] edges = line.split(" ");
+            for (String edge : edges) {
+                String[] pair = edge.split(",");
+                this.addEdge(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]));
+            }
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -172,10 +174,10 @@ public class AdjacencyMatrixGraph implements Graph {
      * Выполняет топологическую сортировку графа (алгоритм Кана).
      *
      * @return список вершин в топологическом порядке
-     * @throws Exception если граф содержит цикл, сортировка невозможна
+     * @throws GraphCycleException если граф содержит цикл, сортировка невозможна
      */
     @Override
-    public List<Integer> topologicalSort() throws Exception {
+    public List<Integer> topologicalSort() throws GraphCycleException {
         int[] inDegree = new int[numVertices];  // Входная степень для каждой вершины
         List<Integer> topOrder = new ArrayList<>();
 
@@ -212,7 +214,7 @@ public class AdjacencyMatrixGraph implements Graph {
 
         // Проверка на наличие циклов
         if (topOrder.size() != numVertices) {
-            throw new Exception("Граф содержит циклы, топологическая сортировка невозможна.");
+            throw new GraphCycleException("Граф содержит циклы, топологическая сортировка невозможна.");
         }
 
         return topOrder;
