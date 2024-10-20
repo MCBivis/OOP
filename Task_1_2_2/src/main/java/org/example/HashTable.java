@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * Реализация параметризованного контейнера HashTable<K, V>.
+ * Реализация параметризованного контейнера HashTable.
  *
  * @param <K> Тип ключа
  * @param <V> Тип значения
