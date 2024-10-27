@@ -152,7 +152,13 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @param value Новое значение
      */
     public void update(K key, V value) {
-        put(key, value);
+        int index = hash(key);
+        for (Entry<K, V> entry : table[index]) {
+            if (entry.getKey().equals(key)) {
+                entry.setValue(value);
+                return;
+            }
+        }
     }
 
     /**
