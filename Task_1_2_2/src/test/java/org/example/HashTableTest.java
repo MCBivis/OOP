@@ -3,6 +3,8 @@ package org.example;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ConcurrentModificationException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HashTableTest {
@@ -123,5 +125,27 @@ class HashTableTest {
 
         otherTable.put("key3", 3);
         assertFalse(hashTable.equals(otherTable));
+    }
+
+    @Test
+    void testConcurrentModificationException() {
+        hashTable.put("key1", 1);
+        hashTable.put("key2", 2);
+
+        var iterator = hashTable.iterator();
+
+        hashTable.put("key3", 3);
+
+        assertThrows(ConcurrentModificationException.class, iterator::next);
+    }
+
+    @Test
+    void testIllegalStateException() {
+        hashTable.put("key1", 1);
+
+        var iterator = hashTable.iterator();
+
+        iterator.next();
+        assertThrows(IllegalStateException.class, iterator::next);
     }
 }
