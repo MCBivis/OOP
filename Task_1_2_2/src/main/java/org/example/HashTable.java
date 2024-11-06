@@ -10,67 +10,13 @@ import java.util.LinkedList;
  * @param <K> Тип ключа
  * @param <V> Тип значения
  */
-public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
+public class HashTable<K, V> implements Iterable<Entry<K, V>> {
     private static final int DEFAULT_CAPACITY = 16;
     private static final float LOAD_FACTOR = 0.75f;
 
     private LinkedList<Entry<K, V>>[] table;
     private int size;
     private int modificationCount;
-
-    /**
-     * Внутренний класс для хранения пар ключ-значение.
-     */
-    public static class Entry<K, V> {
-        private final K key;
-        private V value;
-
-        /**
-         * Конструктор для создания новой пары ключ-значение.
-         *
-         * @param key   Ключ
-         * @param value Значение
-         */
-        public Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        /**
-         * Возвращает ключ.
-         *
-         * @return Ключ
-         */
-        public K getKey() {
-            return key;
-        }
-
-        /**
-         * Возвращает значение.
-         *
-         * @return Значение
-         */
-        public V getValue() {
-            return value;
-        }
-
-        /**
-         * Устанавливает новое значение для ключа.
-         *
-         * @param value Новое значение
-         */
-        public void setValue(V value) {
-            this.value = value;
-        }
-
-        /**
-         * Выводит пару ключ=значение в строку.
-         */
-        @Override
-        public String toString() {
-            return key + "=" + value;
-        }
-    }
 
     /**
      * Создает пустую хеш-таблицу.
@@ -89,7 +35,7 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @param value Значение
      */
     public void put(K key, V value) {
-        int index = hash(key);
+        int index = getting_hash(key);
         if (table[index] == null) {
             table[index] = new LinkedList<>();
         }
@@ -113,7 +59,7 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @param key Ключ для удаления
      */
     public void remove(K key) {
-        int index = hash(key);
+        int index = getting_hash(key);
         if (table[index] != null) {
             for (int i = 0; i < table[index].size(); i++) {
                 Entry<K, V> entry = table[index].get(i);
@@ -134,7 +80,7 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @return Значение, соответствующее ключу, или null, если ключ не найден
      */
     public V get(K key) {
-        int index = hash(key);
+        int index = getting_hash(key);
         if (table[index] != null) {
             for (Entry<K, V> entry : table[index]) {
                 if (entry.getKey().equals(key)) {
@@ -152,7 +98,7 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @param value Новое значение
      */
     public void update(K key, V value) {
-        int index = hash(key);
+        int index = getting_hash(key);
         for (Entry<K, V> entry : table[index]) {
             if (entry.getKey().equals(key)) {
                 entry.setValue(value);
@@ -228,7 +174,7 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @param key Ключ
      * @return Индекс в таблице
      */
-    private int hash(K key) {
+    private int getting_hash(K key) {
         return Math.abs(key.hashCode()) % table.length;
     }
 
