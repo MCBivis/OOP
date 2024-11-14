@@ -81,4 +81,30 @@ class SubstringFinderTest {
             assertTrue(file.delete());
         }
     }
+
+    /**
+     * Тест для проверки нахождения подстроки на китайском.
+     * Ожидается, что подстрока будет найдена на позиции 2.
+     *
+     * @throws IOException если произошла ошибка при чтении файла.
+     */
+    @Test
+    public void testFindChineseSubstring() throws IOException {
+        List<Integer> indices = SubstringFinder.find("chinese_input.txt", "䜔䛶䜌䜀");
+
+        assertTrue(indices.contains(2));
+    }
+
+    /**
+     * Тест для проверки нахождения подстроки на английском+смайлики.
+     * Ожидается, что подстрока будет найдена на позиции 6.
+     *
+     * @throws IOException если произошла ошибка при чтении файла.
+     */
+    @Test
+    public void testFindEngSmilesSubstring() throws IOException {
+        List<Integer> indices = SubstringFinder.find("eng_and_smiles_input.txt", "bcdE♘♴♿");
+
+        assertTrue(indices.contains(6));
+    }
 }
