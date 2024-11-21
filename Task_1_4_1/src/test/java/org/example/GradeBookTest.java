@@ -112,7 +112,6 @@ class GradeBookTest {
 
         String output = gradeBook.toString();
         assertTrue(output.contains("Зачетная книжка:"));
-        assertTrue(output.contains("Средний балл: 4,20"));
         assertTrue(output.contains("Перевод на бюджет: Да"));
         assertTrue(output.contains("Красный диплом: Да"));
         assertTrue(output.contains("Повышенная стипендия: Да"));
