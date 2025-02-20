@@ -19,13 +19,13 @@ class ParallelThread extends PrimeCheckerBase {
     @Override
     public boolean hasNonPrime(int[] numbers) throws InterruptedException, ExecutionException {
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        CompletionService<Boolean> completionService = new ExecutorCompletionService<>(executor);
         int chunkSize = (numbers.length / threadCount) + 1;
-        Future<Boolean>[] futures = new Future[threadCount];
 
         for (int i = 0; i < threadCount; i++) {
             final int start = i * chunkSize;
             final int end = Math.min(start + chunkSize, numbers.length);
-            futures[i] = executor.submit(() -> {
+            completionService.submit(() -> {
                 for (int j = start; j < end; j++) {
                     if (!isPrime(numbers[j])) return true;
                 }
@@ -34,8 +34,11 @@ class ParallelThread extends PrimeCheckerBase {
         }
 
         executor.shutdown();
-        for (Future<Boolean> future : futures) {
-            if (future.get()) return true;
+        for (int i = 0; i < threadCount; i++) {
+            if (completionService.take().get()) { // Ждем завершения задачи
+                executor.shutdownNow(); // Прерываем все потоки
+                return true;
+            }
         }
         return false;
     }
