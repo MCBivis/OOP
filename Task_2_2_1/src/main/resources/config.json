@@ -1,0 +1,5 @@
+{
+  "storageCapacity": 5,
+  "bakers": [2, 3, 4],
+  "couriers": [2, 3]
+}
