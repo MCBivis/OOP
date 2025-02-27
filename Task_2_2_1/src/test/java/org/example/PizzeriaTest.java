@@ -10,7 +10,7 @@ class PizzeriaTest {
 
     @Test
     void testStandartWork() throws Exception{
-        Pizzeria pizzeria = new Pizzeria("src\\main\\resources\\config.json");
+        Pizzeria pizzeria = new Pizzeria("src/main/resources/config.json");
         pizzeria.start();
 
         for (int i = 1; i <= 10; i++) {
@@ -23,16 +23,16 @@ class PizzeriaTest {
 
     @Test
     void testStopWithSerialization() throws Exception {
-        Pizzeria pizzeria = new Pizzeria("src\\main\\resources\\config.json");
+        Pizzeria pizzeria = new Pizzeria("src/main/resources/config.json");
         pizzeria.start();
 
         for (int i = 1; i <= 10; i++) {
             pizzeria.acceptOrder(i);
         }
 
-        pizzeria.stopWithSerialization("src\\main\\resources\\OldOrders");
+        pizzeria.stopWithSerialization("src/main/resources/OldOrders");
 
-        File file = new File("src\\main\\resources\\OldOrders");
+        File file = new File("src/main/resources/OldOrders");
         assertTrue(file.exists());
     }
 
