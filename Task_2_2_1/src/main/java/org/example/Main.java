@@ -13,7 +13,7 @@ public class Main {
      * @throws Exception Если возникает ошибка при работе с конфигурацией или других этапах работы пиццерии.
      */
     public static void main(String[] args) throws Exception {
-        Pizzeria pizzeria = new Pizzeria("D:\\Github\\OOP\\Task_2_2_1\\src\\main\\resources\\config.json");
+        Pizzeria pizzeria = new Pizzeria("src\\main\\resources\\config.json");
         pizzeria.start();
 
         for (int i = 1; i <= 20; i++) {
