@@ -2,6 +2,9 @@ package org.example;
 
 import java.util.concurrent.atomic.*;
 
+/**
+ * Класс, представляющий пекаря, который готовит пиццы на основе заказов из очереди.
+ */
 public class Baker extends Thread {
     private static final AtomicInteger ID_GENERATOR = new AtomicInteger(1);
     private final int id;
@@ -10,6 +13,14 @@ public class Baker extends Thread {
     private final int speed;
     private final AtomicBoolean isOpen;
 
+    /**
+     * Конструктор для создания пекаря с указанными параметрами.
+     *
+     * @param orderQueue Очередь заказов, из которой пекарь будет забирать заказы.
+     * @param storage Хранилище, куда пекарь будет помещать готовые пиццы.
+     * @param speed Скорость приготовления пиццы в секундах.
+     * @param isOpen Флаг, указывающий, открыта ли пиццерия для приема заказов.
+     */
     public Baker(OrderQueue orderQueue, Storage storage, int speed, AtomicBoolean isOpen) {
         this.id = ID_GENERATOR.getAndIncrement();
         this.orderQueue = orderQueue;
@@ -18,6 +29,10 @@ public class Baker extends Thread {
         this.isOpen = isOpen;
     }
 
+    /**
+     * Основной метод пекаря. Он выполняет заказы: забирает их из очереди, готовит пиццу
+     * и кладет в хранилище.
+     */
     @Override
     public void run() {
         while (isOpen.get() || !orderQueue.isEmpty()) {
@@ -34,6 +49,9 @@ public class Baker extends Thread {
         }
     }
 
+    /**
+     * Безопасное завершение работы потока пекаря.
+     */
     public void joinSafely() {
         try {
             join();

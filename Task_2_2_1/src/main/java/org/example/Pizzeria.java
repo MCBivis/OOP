@@ -1,17 +1,28 @@
 package org.example;
 
-import java.io.File;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Класс, представляющий пиццерию, которая обрабатывает заказы.
+ * Пиццерия включает пекарей, курьеров, склад и очередь заказов.
+ */
 class Pizzeria {
+
     private final OrderQueue orderQueue = new OrderQueue();
     private final Storage storage;
     private final List<Baker> bakers = new ArrayList<>();
     private final List<Courier> couriers = new ArrayList<>();
     private final AtomicBoolean isOpen = new AtomicBoolean(true);
 
+    /**
+     * Конструктор для создания пиццерии с конфигурацией из файла.
+     *
+     * @param configPath Путь к конфигурационному файлу
+     * @throws Exception Если при чтении конфигурации возникла ошибка
+     */
     public Pizzeria(String configPath) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Config config = objectMapper.readValue(new File(configPath), Config.class);
@@ -27,21 +38,57 @@ class Pizzeria {
         }
     }
 
+    /**
+     * Запускает пиццерию, начиная работу пекарей и курьеров.
+     */
     public void start() {
         bakers.forEach(Thread::start);
         couriers.forEach(Thread::start);
     }
 
+    /**
+     * Останавливает пиццерию, завершая работу пекарей и курьеров после обработки всех заказов.
+     */
     public void stop() {
         isOpen.set(false);
         while (!orderQueue.isEmpty() || !storage.isEmpty()) {
-            // Ждем обработки всех заказов
+            // Ждем, пока все заказы будут обработаны
         }
         bakers.forEach(Baker::joinSafely);
         couriers.forEach(Courier::joinSafely);
         System.out.println("Пиццерия завершила работу.");
     }
 
+    /**
+     * Останавливает пиццерию с сериализацией незавершенных заказов в файл.
+     * После этого пиццерия записывает незавершенные заказы в файл и завершает работу.
+     *
+     * @param filename Имя файла, в который будут сохранены незавершенные заказы
+     * @throws IOException Если произошла ошибка при записи в файл
+     */
+    public void stopWithSerialization(String filename) throws IOException {
+        isOpen.set(false);
+        List<Integer> orders = new LinkedList<>();
+        while (!orderQueue.isEmpty()) {
+            orders.add(orderQueue.takeOrder());
+        }
+        while (!storage.isEmpty()) {
+            // Ждем, пока все заказы на складе будут обработаны
+        }
+        bakers.forEach(Baker::joinSafely);
+        couriers.forEach(Courier::joinSafely);
+        System.out.println("Пиццерия завершила работу и записала незавершённые заказы в файл: " + filename);
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(orders);
+        }
+    }
+
+    /**
+     * Принимает новый заказ и добавляет его в очередь, если пиццерия открыта.
+     *
+     * @param orderId Идентификатор заказа
+     */
     public void acceptOrder(int orderId) {
         if (isOpen.get()) {
             orderQueue.addOrder(orderId);
@@ -50,4 +97,19 @@ class Pizzeria {
         }
     }
 
+    /**
+     * Загружает незавершенные заказы из файла и добавляет их в очередь заказов.
+     *
+     * @param filename Путь к файлу с незавершенными заказами
+     * @throws IOException            Если возникла ошибка при чтении файла
+     * @throws ClassNotFoundException Если не удается найти класс для объекта в файле
+     */
+    public void loadOldOrders(String filename) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+            List<Integer> orders = (List<Integer>) ois.readObject();
+            for (int order : orders) {
+                acceptOrder(order);
+            }
+        }
+    }
 }

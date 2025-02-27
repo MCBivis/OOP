@@ -3,6 +3,9 @@ package org.example;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 
+/**
+ * Класс, представляющий курьера, который забирает пиццы из хранилища и доставляет их.
+ */
 public class Courier extends Thread {
     private static final AtomicInteger ID_GENERATOR = new AtomicInteger(1);
     private final int id;
@@ -10,6 +13,13 @@ public class Courier extends Thread {
     private final int capacity;
     private final AtomicBoolean isOpen;
 
+    /**
+     * Конструктор для создания курьера с указанными параметрами.
+     *
+     * @param storage Хранилище, из которого курьер будет забирать пиццы.
+     * @param capacity Вместимость курьера, максимальное количество пицц, которые он может забрать за один раз.
+     * @param isOpen Флаг, указывающий, открыта ли пиццерия для приема заказов.
+     */
     public Courier(Storage storage, int capacity, AtomicBoolean isOpen) {
         this.id = ID_GENERATOR.getAndIncrement();
         this.storage = storage;
@@ -17,6 +27,9 @@ public class Courier extends Thread {
         this.isOpen = isOpen;
     }
 
+    /**
+     * Основной метод курьера. Он забирает пиццы из хранилища и доставляет их.
+     */
     @Override
     public void run() {
         while (isOpen.get() || !storage.isEmpty()) {
@@ -32,6 +45,9 @@ public class Courier extends Thread {
         }
     }
 
+    /**
+     * Безопасное завершение работы потока курьера.
+     */
     public void joinSafely() {
         try {
             join();
