@@ -39,10 +39,10 @@ class PizzeriaTest {
 
     @Test
     void testLoadOldOrders() throws Exception {
-        Pizzeria pizzeria = new Pizzeria("src\\main\\resources\\config.json");
+        Pizzeria pizzeria = new Pizzeria("src/main/resources/config.json");
         pizzeria.start();
 
-        pizzeria.loadOldOrders("src\\main\\resources\\OldOrders");
+        pizzeria.loadOldOrders("src/main/resources/OldOrders");
 
         pizzeria.stop();
     }
