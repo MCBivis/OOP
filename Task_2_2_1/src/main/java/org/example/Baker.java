@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.*;
 
 /**
@@ -12,6 +13,7 @@ public class Baker extends Thread {
     private final Storage storage;
     private final int speed;
     private final AtomicBoolean isOpen;
+    private final CountDownLatch startLatch;
 
     /**
      * Конструктор для создания пекаря с указанными параметрами.
@@ -21,12 +23,13 @@ public class Baker extends Thread {
      * @param speed Скорость приготовления пиццы в секундах.
      * @param isOpen Флаг, указывающий, открыта ли пиццерия для приема заказов.
      */
-    public Baker(OrderQueue orderQueue, Storage storage, int speed, AtomicBoolean isOpen) {
+    public Baker(OrderQueue orderQueue, Storage storage, int speed, AtomicBoolean isOpen, CountDownLatch startLatch) {
         this.id = ID_GENERATOR.getAndIncrement();
         this.orderQueue = orderQueue;
         this.storage = storage;
         this.speed = speed;
         this.isOpen = isOpen;
+        this.startLatch = startLatch;
     }
 
     /**
@@ -37,7 +40,6 @@ public class Baker extends Thread {
     public void run() {
         while (isOpen.get() || !orderQueue.isEmpty()) {
             Integer orderId = orderQueue.takeOrder();
-            if (orderId == null) continue;
 
             System.out.println(orderId + " Пекарь " + id + " начал готовить.");
             try {

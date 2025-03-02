@@ -1,13 +1,18 @@
 package org.example;
 
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Класс для управления очередью заказов в пиццерии.
  */
 public class OrderQueue {
     private final Queue<Integer> orders = new LinkedList<>();
+    private final CountDownLatch startLatch;
 
+    public OrderQueue(CountDownLatch startLatch) {
+        this.startLatch = startLatch;
+    }
     /**
      * Добавляет заказ в очередь.
      * При добавлении уведомляются все потоки, ожидающие на этой очереди.
@@ -27,6 +32,7 @@ public class OrderQueue {
     public synchronized Integer takeOrder() {
         while (orders.isEmpty()) {
             try {
+                startLatch.countDown();
                 wait();
             } catch (InterruptedException ignored) {}
         }

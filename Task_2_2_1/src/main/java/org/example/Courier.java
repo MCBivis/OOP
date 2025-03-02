@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.*;
 
 /**
@@ -12,6 +13,7 @@ public class Courier extends Thread {
     private final Storage storage;
     private final int capacity;
     private final AtomicBoolean isOpen;
+    private final CountDownLatch startLatch;
 
     /**
      * Конструктор для создания курьера с указанными параметрами.
@@ -20,11 +22,12 @@ public class Courier extends Thread {
      * @param capacity Вместимость курьера, максимальное количество пицц, которые он может забрать за один раз.
      * @param isOpen Флаг, указывающий, открыта ли пиццерия для приема заказов.
      */
-    public Courier(Storage storage, int capacity, AtomicBoolean isOpen) {
+    public Courier(Storage storage, int capacity, AtomicBoolean isOpen, CountDownLatch startLatch) {
         this.id = ID_GENERATOR.getAndIncrement();
         this.storage = storage;
         this.capacity = capacity;
         this.isOpen = isOpen;
+        this.startLatch = startLatch;
     }
 
     /**
@@ -34,7 +37,6 @@ public class Courier extends Thread {
     public void run() {
         while (isOpen.get() || !storage.isEmpty()) {
             List<Integer> pizzas = storage.takePizzas(capacity);
-            if (pizzas.isEmpty()) continue;
 
             System.out.println("Курьер " + id + " забрал " + pizzas);
             try {

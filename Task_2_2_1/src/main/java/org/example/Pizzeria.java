@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Класс, представляющий пиццерию, которая обрабатывает заказы.
@@ -11,11 +12,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 class Pizzeria {
 
-    private final OrderQueue orderQueue = new OrderQueue();
+    private final OrderQueue orderQueue;
     private final Storage storage;
     private final List<Baker> bakers = new ArrayList<>();
     private final List<Courier> couriers = new ArrayList<>();
     private final AtomicBoolean isOpen = new AtomicBoolean(true);
+    private final CountDownLatch startLatch;
 
     /**
      * Конструктор для создания пиццерии с конфигурацией из файла.
@@ -27,14 +29,18 @@ class Pizzeria {
         ObjectMapper objectMapper = new ObjectMapper();
         Config config = objectMapper.readValue(new File(configPath), Config.class);
 
-        this.storage = new Storage(config.storageCapacity);
+        int totalWorkers = config.bakers.size() + config.couriers.size();
+        this.startLatch = new CountDownLatch(totalWorkers);
+
+        this.storage = new Storage(config.storageCapacity, startLatch);
+        this.orderQueue = new OrderQueue(startLatch);
 
         for (int speed : config.bakers) {
-            bakers.add(new Baker(orderQueue, storage, speed, isOpen));
+            bakers.add(new Baker(orderQueue, storage, speed, isOpen, startLatch));
         }
 
         for (int capacity : config.couriers) {
-            couriers.add(new Courier(storage, capacity, isOpen));
+            couriers.add(new Courier(storage, capacity, isOpen, startLatch));
         }
     }
 
@@ -42,8 +48,16 @@ class Pizzeria {
      * Запускает пиццерию, начиная работу пекарей и курьеров.
      */
     public void start() {
-        bakers.forEach(Thread::start);
         couriers.forEach(Thread::start);
+        bakers.forEach(Thread::start);
+
+        try {
+            startLatch.await(); // Ждём, пока все потоки перейдут в WAITING
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        System.out.println("Пиццерия готова к приёму заказов!");
     }
 
     /**

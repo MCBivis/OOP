@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Класс для управления хранилищем пицц на складе.
@@ -8,14 +9,16 @@ import java.util.*;
 public class Storage {
     private final int capacity;
     private final Queue<Integer> storage = new LinkedList<>();
+    private final CountDownLatch startLatch;
 
     /**
      * Конструктор для создания хранилища с заданной ёмкостью.
      *
      * @param capacity Максимальная ёмкость склада.
      */
-    public Storage(int capacity) {
+    public Storage(int capacity, CountDownLatch startLatch) {
         this.capacity = capacity;
+        this.startLatch = startLatch;
     }
 
     /**
@@ -43,6 +46,7 @@ public class Storage {
     public synchronized List<Integer> takePizzas(int maxCount) {
         while (storage.isEmpty()) {
             try {
+                startLatch.countDown();
                 wait();
             } catch (InterruptedException ignored) {}
         }
