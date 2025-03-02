@@ -65,7 +65,12 @@ class Pizzeria {
      */
     public void stop() {
         isOpen.set(false);
-        while (!orderQueue.isEmpty() || !storage.isEmpty()) {
+        synchronized (storage) {
+            while (!orderQueue.isEmpty() || !storage.isEmpty()) {
+                try {
+                    storage.wait();
+                } catch (InterruptedException ignored) {}
+            }
         }
         bakers.forEach(Baker::joinSafely);
         couriers.forEach(Courier::joinSafely);
@@ -85,8 +90,12 @@ class Pizzeria {
         while (!orderQueue.isEmpty()) {
             orders.add(orderQueue.takeOrder());
         }
-        while (!storage.isEmpty()) {
-            // Ждем, пока все заказы на складе будут обработаны
+        synchronized (storage) {
+            while (!storage.isEmpty()) {
+                try {
+                    storage.wait();
+                } catch (InterruptedException ignored) {}
+            }
         }
         bakers.forEach(Baker::joinSafely);
         couriers.forEach(Courier::joinSafely);

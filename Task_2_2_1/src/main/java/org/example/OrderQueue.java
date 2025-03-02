@@ -39,9 +39,7 @@ public class OrderQueue {
                 wait();
             } catch (InterruptedException ignored) {}
         }
-        Integer order = orders.poll();
-        notifyAll();
-        return order;
+        return orders.poll();
     }
 
     /**

@@ -16,11 +16,11 @@ public class Main {
         Pizzeria pizzeria = new Pizzeria("src/main/resources/config.json");
         pizzeria.start();
 
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 1; i <= 5; i++) {
             pizzeria.acceptOrder(i);
         }
 
         pizzeria.stop();
-        pizzeria.acceptOrder(21);
+        pizzeria.acceptOrder(11);
     }
 }
