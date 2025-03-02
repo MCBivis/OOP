@@ -40,7 +40,7 @@ public class Baker extends Thread {
     public void run() {
         while (isOpen.get() || !orderQueue.isEmpty()) {
             Integer orderId = orderQueue.takeOrder();
-
+            if (orderId == null) continue;
             System.out.println(orderId + " Пекарь " + id + " начал готовить.");
             try {
                 Thread.sleep(speed * 1000L);

@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Класс для управления очередью заказов в пиццерии.
@@ -9,9 +10,11 @@ import java.util.concurrent.CountDownLatch;
 public class OrderQueue {
     private final Queue<Integer> orders = new LinkedList<>();
     private final CountDownLatch startLatch;
+    private final AtomicBoolean isOpen;
 
-    public OrderQueue(CountDownLatch startLatch) {
+    public OrderQueue(CountDownLatch startLatch, AtomicBoolean isOpen) {
         this.startLatch = startLatch;
+        this.isOpen = isOpen;
     }
     /**
      * Добавляет заказ в очередь.
@@ -30,13 +33,15 @@ public class OrderQueue {
      * @return Идентификатор заказа или null, если очередь пуста.
      */
     public synchronized Integer takeOrder() {
-        while (orders.isEmpty()) {
+        while (orders.isEmpty() && isOpen.get()) {
             try {
                 startLatch.countDown();
                 wait();
             } catch (InterruptedException ignored) {}
         }
-        return orders.poll();
+        Integer order = orders.poll();
+        notifyAll();
+        return order;
     }
 
     /**

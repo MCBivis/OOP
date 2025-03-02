@@ -12,8 +12,10 @@ class PizzeriaTest {
     void testStandartWork() throws Exception{
         Pizzeria pizzeria = new Pizzeria("src/main/resources/config.json");
         pizzeria.start();
+
         for (int i = 1; i <= 10; i++) {
             pizzeria.acceptOrder(i);
+
         }
 
         pizzeria.stop();

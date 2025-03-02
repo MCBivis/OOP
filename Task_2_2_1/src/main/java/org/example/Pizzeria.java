@@ -33,7 +33,7 @@ class Pizzeria {
         this.startLatch = new CountDownLatch(totalWorkers);
 
         this.storage = new Storage(config.storageCapacity, startLatch);
-        this.orderQueue = new OrderQueue(startLatch);
+        this.orderQueue = new OrderQueue(startLatch, isOpen);
 
         for (int speed : config.bakers) {
             bakers.add(new Baker(orderQueue, storage, speed, isOpen, startLatch));
@@ -66,7 +66,6 @@ class Pizzeria {
     public void stop() {
         isOpen.set(false);
         while (!orderQueue.isEmpty() || !storage.isEmpty()) {
-            // Ждем, пока все заказы будут обработаны
         }
         bakers.forEach(Baker::joinSafely);
         couriers.forEach(Courier::joinSafely);
