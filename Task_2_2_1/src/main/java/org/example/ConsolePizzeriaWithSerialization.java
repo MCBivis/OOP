@@ -10,7 +10,7 @@ import java.util.concurrent.CountDownLatch;
  * Класс, представляющий пиццерию, которая обрабатывает заказы.
  * Пиццерия включает пекарей, курьеров, склад и очередь заказов.
  */
-class Pizzeria {
+public class ConsolePizzeriaWithSerialization implements PizzeriaInterfaceWithSerialization{
 
     private final OrderQueue orderQueue;
     private final Storage storage;
@@ -25,7 +25,7 @@ class Pizzeria {
      * @param configPath Путь к конфигурационному файлу
      * @throws Exception Если при чтении конфигурации возникла ошибка
      */
-    public Pizzeria(String configPath) throws Exception {
+    public ConsolePizzeriaWithSerialization(String configPath) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Config config = objectMapper.readValue(new File(configPath), Config.class);
 
@@ -58,23 +58,6 @@ class Pizzeria {
         }
 
         System.out.println("Пиццерия готова к приёму заказов!");
-    }
-
-    /**
-     * Останавливает пиццерию, завершая работу пекарей и курьеров после обработки всех заказов.
-     */
-    public void stop() {
-        isOpen.set(false);
-        synchronized (storage) {
-            while (!orderQueue.isEmpty() || !storage.isEmpty()) {
-                try {
-                    storage.wait();
-                } catch (InterruptedException ignored) {}
-            }
-        }
-        bakers.forEach(Baker::joinSafely);
-        couriers.forEach(Courier::joinSafely);
-        System.out.println("Пиццерия завершила работу.");
     }
 
     /**
