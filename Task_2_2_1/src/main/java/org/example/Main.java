@@ -1,5 +1,8 @@
 package org.example;
 
+
+import org.example.logger.LoggerPizzeria;
+
 /**
  * Главный класс для запуска пиццерии и тестирования её функциональности.
  * В этом классе создается экземпляр пиццерии, принимаются заказы, затем пиццерия закрывается,
@@ -13,7 +16,7 @@ public class Main {
      * @throws Exception Если возникает ошибка при работе с конфигурацией или других этапах работы пиццерии.
      */
     public static void main(String[] args) throws Exception {
-        PizzeriaInterface pizzeria = new ConsolePizzeria("src/main/resources/config.json");
+        PizzeriaInterface pizzeria = new LoggerPizzeria("src/main/resources/config.json");
         pizzeria.start();
 
         for (int i = 1; i <= 5; i++) {

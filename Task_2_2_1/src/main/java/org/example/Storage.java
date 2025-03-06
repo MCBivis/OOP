@@ -33,7 +33,6 @@ public class Storage {
             } catch (InterruptedException ignored) {}
         }
         storage.add(orderId);
-        System.out.println(orderId + " Пицца на складе.");
         notifyAll();
     }
 

@@ -1,19 +1,20 @@
-package org.example;
+package org.example.console;
+
+import org.example.Storage;
+import org.example.Worker;
 
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.*;
 
 /**
  * Класс, представляющий курьера, который забирает пиццы из хранилища и доставляет их.
  */
-public class Courier extends Thread {
+public class Courier extends Thread implements Worker {
     private static final AtomicInteger ID_GENERATOR = new AtomicInteger(1);
     private final int id;
     private final Storage storage;
     private final int capacity;
     private final AtomicBoolean isOpen;
-    private final CountDownLatch startLatch;
 
     /**
      * Конструктор для создания курьера с указанными параметрами.
@@ -22,12 +23,11 @@ public class Courier extends Thread {
      * @param capacity Вместимость курьера, максимальное количество пицц, которые он может забрать за один раз.
      * @param isOpen Флаг, указывающий, открыта ли пиццерия для приема заказов.
      */
-    public Courier(Storage storage, int capacity, AtomicBoolean isOpen, CountDownLatch startLatch) {
+    public Courier(Storage storage, int capacity, AtomicBoolean isOpen) {
         this.id = ID_GENERATOR.getAndIncrement();
         this.storage = storage;
         this.capacity = capacity;
         this.isOpen = isOpen;
-        this.startLatch = startLatch;
     }
 
     /**

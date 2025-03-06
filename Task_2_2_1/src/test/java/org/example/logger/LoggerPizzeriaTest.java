@@ -1,12 +1,13 @@
-package org.example;
+package org.example.logger;
 
-import org.junit.jupiter.api.*;
+import org.example.PizzeriaInterface;
+import org.junit.jupiter.api.Test;
 
-class ConsolePizzeriaTest {
+public class LoggerPizzeriaTest {
 
     @Test
     void testStandartWork() throws Exception{
-        PizzeriaInterface pizzeria = new ConsolePizzeria("src/main/resources/config.json");
+        PizzeriaInterface pizzeria = new LoggerPizzeria("src/main/resources/config.json");
         pizzeria.start();
 
         for (int i = 1; i <= 10; i++) {
@@ -17,4 +18,5 @@ class ConsolePizzeriaTest {
         pizzeria.stop();
         pizzeria.acceptOrder(11);
     }
+
 }

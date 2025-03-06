@@ -1,23 +1,27 @@
-package org.example;
+package org.example.logger;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.*;
+import org.apache.logging.log4j.*;
+
 import java.util.concurrent.CountDownLatch;
 
 /**
  * Класс, представляющий пиццерию, которая обрабатывает заказы.
  * Пиццерия включает пекарей, курьеров, склад и очередь заказов.
  */
-public class ConsolePizzeria implements PizzeriaInterface{
+public class LoggerPizzeria implements PizzeriaInterface {
 
     private final OrderQueue orderQueue;
     private final Storage storage;
-    private final List<Baker> bakers = new ArrayList<>();
-    private final List<Courier> couriers = new ArrayList<>();
+    private final List<LoggerBaker> bakers = new ArrayList<>();
+    private final List<LoggerCourier> couriers = new ArrayList<>();
     private final AtomicBoolean isOpen = new AtomicBoolean(true);
     private final CountDownLatch startLatch;
+    private static final Logger logger = LogManager.getLogger(LoggerPizzeria.class);
 
     /**
      * Конструктор для создания пиццерии с конфигурацией из файла.
@@ -25,7 +29,7 @@ public class ConsolePizzeria implements PizzeriaInterface{
      * @param configPath Путь к конфигурационному файлу
      * @throws Exception Если при чтении конфигурации возникла ошибка
      */
-    public ConsolePizzeria(String configPath) throws Exception {
+    public LoggerPizzeria(String configPath) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Config config = objectMapper.readValue(new File(configPath), Config.class);
 
@@ -36,11 +40,11 @@ public class ConsolePizzeria implements PizzeriaInterface{
         this.orderQueue = new OrderQueue(startLatch, isOpen);
 
         for (int speed : config.bakers) {
-            bakers.add(new Baker(orderQueue, storage, speed, isOpen, startLatch));
+            bakers.add(new LoggerBaker(orderQueue, storage, speed, isOpen));
         }
 
         for (int capacity : config.couriers) {
-            couriers.add(new Courier(storage, capacity, isOpen, startLatch));
+            couriers.add(new LoggerCourier(storage, capacity, isOpen));
         }
     }
 
@@ -57,7 +61,7 @@ public class ConsolePizzeria implements PizzeriaInterface{
             Thread.currentThread().interrupt();
         }
 
-        System.out.println("Пиццерия готова к приёму заказов!");
+        logger.info("Пиццерия готова к приёму заказов!");
     }
 
     /**
@@ -72,9 +76,9 @@ public class ConsolePizzeria implements PizzeriaInterface{
                 } catch (InterruptedException ignored) {}
             }
         }
-        bakers.forEach(Baker::joinSafely);
-        couriers.forEach(Courier::joinSafely);
-        System.out.println("Пиццерия завершила работу.");
+        bakers.forEach(LoggerBaker::joinSafely);
+        couriers.forEach(LoggerCourier::joinSafely);
+        logger.info("Пиццерия завершила работу.");
     }
 
     /**
@@ -86,7 +90,7 @@ public class ConsolePizzeria implements PizzeriaInterface{
         if (isOpen.get()) {
             orderQueue.addOrder(orderId);
         } else {
-            System.out.println(orderId + " Заказ отклонен, пиццерия закрыта.");
+            logger.info(orderId + " Заказ отклонен, пиццерия закрыта.");
         }
     }
 }

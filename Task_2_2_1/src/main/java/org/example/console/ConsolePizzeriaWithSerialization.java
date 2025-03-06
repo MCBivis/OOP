@@ -1,16 +1,18 @@
-package org.example;
+package org.example.console;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.*;
+
 import java.util.concurrent.CountDownLatch;
 
 /**
  * Класс, представляющий пиццерию, которая обрабатывает заказы.
  * Пиццерия включает пекарей, курьеров, склад и очередь заказов.
  */
-public class ConsolePizzeriaWithSerialization implements PizzeriaInterfaceWithSerialization{
+public class ConsolePizzeriaWithSerialization implements PizzeriaInterfaceWithSerialization {
 
     private final OrderQueue orderQueue;
     private final Storage storage;
@@ -36,11 +38,11 @@ public class ConsolePizzeriaWithSerialization implements PizzeriaInterfaceWithSe
         this.orderQueue = new OrderQueue(startLatch, isOpen);
 
         for (int speed : config.bakers) {
-            bakers.add(new Baker(orderQueue, storage, speed, isOpen, startLatch));
+            bakers.add(new Baker(orderQueue, storage, speed, isOpen));
         }
 
         for (int capacity : config.couriers) {
-            couriers.add(new Courier(storage, capacity, isOpen, startLatch));
+            couriers.add(new Courier(storage, capacity, isOpen));
         }
     }
 
