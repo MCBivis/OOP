@@ -34,7 +34,7 @@ public class ConsolePizzeria implements PizzeriaInterface {
         int totalWorkers = config.bakers.size() + config.couriers.size();
         this.startLatch = new CountDownLatch(totalWorkers);
 
-        this.storage = new Storage(config.storageCapacity, startLatch);
+        this.storage = new Storage(config.storageCapacity, startLatch, isOpen);
         this.orderQueue = new OrderQueue(startLatch, isOpen);
 
         for (int speed : config.bakers) {

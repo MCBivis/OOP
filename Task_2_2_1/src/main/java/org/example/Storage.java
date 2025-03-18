@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Класс для управления хранилищем пицц на складе.
@@ -10,15 +11,17 @@ public class Storage {
     private final int capacity;
     private final Queue<Integer> storage = new LinkedList<>();
     private final CountDownLatch startLatch;
+    private final AtomicBoolean isOpen;
 
     /**
      * Конструктор для создания хранилища с заданной ёмкостью.
      *
      * @param capacity Максимальная ёмкость склада.
      */
-    public Storage(int capacity, CountDownLatch startLatch) {
+    public Storage(int capacity, CountDownLatch startLatch, AtomicBoolean isOpen) {
         this.capacity = capacity;
         this.startLatch = startLatch;
+        this.isOpen = isOpen;
     }
 
     /**
@@ -43,7 +46,7 @@ public class Storage {
      * @return Список заказов, который был забран с склада.
      */
     public synchronized List<Integer> takePizzas(int maxCount) {
-        while (storage.isEmpty()) {
+        while (storage.isEmpty() && isOpen.get()) {
             try {
                 startLatch.countDown();
                 wait();

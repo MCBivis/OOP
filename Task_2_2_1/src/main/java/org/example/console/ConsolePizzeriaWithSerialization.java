@@ -34,7 +34,7 @@ public class ConsolePizzeriaWithSerialization implements PizzeriaInterfaceWithSe
         int totalWorkers = config.bakers.size() + config.couriers.size();
         this.startLatch = new CountDownLatch(totalWorkers);
 
-        this.storage = new Storage(config.storageCapacity, startLatch);
+        this.storage = new Storage(config.storageCapacity, startLatch, isOpen);
         this.orderQueue = new OrderQueue(startLatch, isOpen);
 
         for (int speed : config.bakers) {
@@ -83,6 +83,9 @@ public class ConsolePizzeriaWithSerialization implements PizzeriaInterfaceWithSe
             }
         }
         bakers.forEach(Baker::joinSafely);
+        synchronized (storage) {
+            storage.notifyAll();
+        }
         couriers.forEach(Courier::joinSafely);
         System.out.println("Пиццерия завершила работу и записала незавершённые заказы в файл: " + filename);
 

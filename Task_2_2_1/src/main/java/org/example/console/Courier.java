@@ -37,7 +37,7 @@ public class Courier extends Thread implements Worker {
     public void run() {
         while (isOpen.get() || !storage.isEmpty()) {
             List<Integer> pizzas = storage.takePizzas(capacity);
-
+            if (pizzas.isEmpty()) continue;
             System.out.println("Курьер " + id + " забрал " + pizzas);
             try {
                 Thread.sleep(3000);
