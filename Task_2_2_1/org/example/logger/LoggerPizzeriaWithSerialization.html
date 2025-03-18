@@ -44,7 +44,7 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -71,22 +71,32 @@ loadScripts(document, 'script');</script>
 <h1 title="Class LoggerPizzeriaWithSerialization" class="title">Class LoggerPizzeriaWithSerialization</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance"><a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html" title="class in org.example.interfaces_abstractClasses">org.example.interfaces_abstractClasses.PizzeriaWithSeriallization</a>
 <div class="inheritance">org.example.logger.LoggerPizzeriaWithSerialization</div>
+</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../PizzeriaInterfaceWithSerialization.html" title="interface in org.example">PizzeriaInterfaceWithSerialization</a></code></dd>
+<dd><code><a href="../interfaces_abstractClasses/PizzeriaInterfaceWithSerialization.html" title="interface in org.example.interfaces_abstractClasses">PizzeriaInterfaceWithSerialization</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">LoggerPizzeriaWithSerialization</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="../PizzeriaInterfaceWithSerialization.html" title="interface in org.example">PizzeriaInterfaceWithSerialization</a></span></div>
+<span class="extends-implements">extends <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html" title="class in org.example.interfaces_abstractClasses">PizzeriaWithSeriallization</a></span></div>
 <div class="block">Класс, представляющий пиццерию, которая обрабатывает заказы.
  Пиццерия включает пекарей, курьеров, склад и очередь заказов.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="inherited-list">
+<h3 id="fields-inherited-from-class-org.example.interfaces_abstractClasses.PizzeriaWithSeriallization">Fields inherited from class&nbsp;org.example.interfaces_abstractClasses.<a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html" title="class in org.example.interfaces_abstractClasses">PizzeriaWithSeriallization</a></h3>
+<code><a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#bakers">bakers</a>, <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#config">config</a>, <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#couriers">couriers</a>, <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#isOpen">isOpen</a>, <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#orderQueue">orderQueue</a>, <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#startLatch">startLatch</a>, <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#storage">storage</a></code></div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -113,29 +123,15 @@ implements <a href="../PizzeriaInterfaceWithSerialization.html" title="interface
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#acceptOrder(int)" class="member-name-link">acceptOrder</a><wbr>(int&nbsp;orderId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Принимает новый заказ и добавляет его в очередь, если пиццерия открыта.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadOldOrders(java.lang.String)" class="member-name-link">loadOldOrders</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;filename)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Загружает незавершенные заказы из файла и добавляет их в очередь заказов.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Запускает пиццерию, начиная работу пекарей и курьеров.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopWithSerialization(java.lang.String)" class="member-name-link">stopWithSerialization</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;filename)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Останавливает пиццерию с сериализацией незавершенных заказов в файл.</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#print(java.lang.String)" class="member-name-link">print</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;text)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
-</div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.example.interfaces_abstractClasses.PizzeriaWithSeriallization">Methods inherited from class&nbsp;org.example.interfaces_abstractClasses.<a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html" title="class in org.example.interfaces_abstractClasses">PizzeriaWithSeriallization</a></h3>
+<code><a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#acceptOrder(int)">acceptOrder</a>, <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#loadOldOrders(java.lang.String)">loadOldOrders</a>, <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#start()">start</a>, <a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#stopWithSerialization(java.lang.String)">stopWithSerialization</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -173,61 +169,12 @@ implements <a href="../PizzeriaInterfaceWithSerialization.html" title="interface
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="start()">
-<h3>start</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">start</span>()</div>
-<div class="block">Запускает пиццерию, начиная работу пекарей и курьеров.</div>
+<section class="detail" id="print(java.lang.String)">
+<h3>print</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">print</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;text)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../PizzeriaInterfaceWithSerialization.html#start()">start</a></code>&nbsp;in interface&nbsp;<code><a href="../PizzeriaInterfaceWithSerialization.html" title="interface in org.example">PizzeriaInterfaceWithSerialization</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="stopWithSerialization(java.lang.String)">
-<h3>stopWithSerialization</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stopWithSerialization</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;filename)</span>
-                           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">Останавливает пиццерию с сериализацией незавершенных заказов в файл.
- После этого пиццерия записывает незавершенные заказы в файл и завершает работу.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../PizzeriaInterfaceWithSerialization.html#stopWithSerialization(java.lang.String)">stopWithSerialization</a></code>&nbsp;in interface&nbsp;<code><a href="../PizzeriaInterfaceWithSerialization.html" title="interface in org.example">PizzeriaInterfaceWithSerialization</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>filename</code> - Имя файла, в который будут сохранены незавершенные заказы</dd>
-<dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - Если произошла ошибка при записи в файл</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="acceptOrder(int)">
-<h3>acceptOrder</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">acceptOrder</span><wbr><span class="parameters">(int&nbsp;orderId)</span></div>
-<div class="block">Принимает новый заказ и добавляет его в очередь, если пиццерия открыта.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../PizzeriaInterfaceWithSerialization.html#acceptOrder(int)">acceptOrder</a></code>&nbsp;in interface&nbsp;<code><a href="../PizzeriaInterfaceWithSerialization.html" title="interface in org.example">PizzeriaInterfaceWithSerialization</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>orderId</code> - Идентификатор заказа</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="loadOldOrders(java.lang.String)">
-<h3>loadOldOrders</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loadOldOrders</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;filename)</span>
-                   throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a>,
-<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ClassNotFoundException.html" title="class or interface in java.lang" class="external-link">ClassNotFoundException</a></span></div>
-<div class="block">Загружает незавершенные заказы из файла и добавляет их в очередь заказов.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../PizzeriaInterfaceWithSerialization.html#loadOldOrders(java.lang.String)">loadOldOrders</a></code>&nbsp;in interface&nbsp;<code><a href="../PizzeriaInterfaceWithSerialization.html" title="interface in org.example">PizzeriaInterfaceWithSerialization</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>filename</code> - Путь к файлу с незавершенными заказами</dd>
-<dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - Если возникла ошибка при чтении файла</dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ClassNotFoundException.html" title="class or interface in java.lang" class="external-link">ClassNotFoundException</a></code> - Если не удается найти класс для объекта в файле</dd>
+<dd><code><a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html#print(java.lang.String)">print</a></code>&nbsp;in class&nbsp;<code><a href="../interfaces_abstractClasses/PizzeriaWithSeriallization.html" title="class in org.example.interfaces_abstractClasses">PizzeriaWithSeriallization</a></code></dd>
 </dl>
 </section>
 </li>

@@ -78,12 +78,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a></code>, <code><a href="../Worker.html" title="interface in org.example">Worker</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a></code>, <code><a href="../interfaces_abstractClasses/Worker.html" title="interface in org.example.interfaces_abstractClasses">Worker</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Courier</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Thread.html" title="class or interface in java.lang" class="external-link">Thread</a>
-implements <a href="../Worker.html" title="interface in org.example">Worker</a></span></div>
+implements <a href="../interfaces_abstractClasses/Worker.html" title="interface in org.example.interfaces_abstractClasses">Worker</a></span></div>
 <div class="block">Класс, представляющий курьера, который забирает пиццы из хранилища и доставляет их.</div>
 </section>
 <section class="summary">
@@ -153,6 +153,9 @@ implements <a href="../Worker.html" title="interface in org.example">Worker</a><
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.example.interfaces_abstractClasses.Worker">Methods inherited from interface&nbsp;org.example.interfaces_abstractClasses.<a href="../interfaces_abstractClasses/Worker.html" title="interface in org.example.interfaces_abstractClasses">Worker</a></h3>
+<code><a href="../interfaces_abstractClasses/Worker.html#start()">start</a></code></div>
 </section>
 </li>
 </ul>
@@ -196,7 +199,7 @@ implements <a href="../Worker.html" title="interface in org.example">Worker</a><
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html#run()" title="class or interface in java.lang" class="external-link">run</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a></code></dd>
 <dt>Specified by:</dt>
-<dd><code><a href="../Worker.html#run()">run</a></code>&nbsp;in interface&nbsp;<code><a href="../Worker.html" title="interface in org.example">Worker</a></code></dd>
+<dd><code><a href="../interfaces_abstractClasses/Worker.html#run()">run</a></code>&nbsp;in interface&nbsp;<code><a href="../interfaces_abstractClasses/Worker.html" title="interface in org.example.interfaces_abstractClasses">Worker</a></code></dd>
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Thread.html#run()" title="class or interface in java.lang" class="external-link">run</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Thread.html" title="class or interface in java.lang" class="external-link">Thread</a></code></dd>
 </dl>
@@ -209,7 +212,7 @@ implements <a href="../Worker.html" title="interface in org.example">Worker</a><
 <div class="block">Безопасное завершение работы потока курьера.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Worker.html#joinSafely()">joinSafely</a></code>&nbsp;in interface&nbsp;<code><a href="../Worker.html" title="interface in org.example">Worker</a></code></dd>
+<dd><code><a href="../interfaces_abstractClasses/Worker.html#joinSafely()">joinSafely</a></code>&nbsp;in interface&nbsp;<code><a href="../interfaces_abstractClasses/Worker.html" title="interface in org.example.interfaces_abstractClasses">Worker</a></code></dd>
 </dl>
 </section>
 </li>

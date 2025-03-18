@@ -52,6 +52,7 @@ loadScripts(document, 'script');</script>
 <ul class="horizontal">
 <li><a href="org/example/package-tree.html">org.example</a>, </li>
 <li><a href="org/example/console/package-tree.html">org.example.console</a>, </li>
+<li><a href="org/example/interfaces_abstractClasses/package-tree.html">org.example.interfaces_abstractClasses</a>, </li>
 <li><a href="org/example/logger/package-tree.html">org.example.logger</a></li>
 </ul>
 </div>
@@ -61,19 +62,27 @@ loadScripts(document, 'script');</script>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" class="type-name-link external-link" title="class or interface in java.lang">Object</a>
 <ul>
 <li class="circle">org.example.<a href="org/example/Config.html" class="type-name-link" title="class in org.example">Config</a></li>
-<li class="circle">org.example.console.<a href="org/example/console/ConsolePizzeria.html" class="type-name-link" title="class in org.example.console">ConsolePizzeria</a> (implements org.example.<a href="org/example/PizzeriaInterface.html" title="interface in org.example">PizzeriaInterface</a>)</li>
-<li class="circle">org.example.console.<a href="org/example/console/ConsolePizzeriaWithSerialization.html" class="type-name-link" title="class in org.example.console">ConsolePizzeriaWithSerialization</a> (implements org.example.<a href="org/example/PizzeriaInterfaceWithSerialization.html" title="interface in org.example">PizzeriaInterfaceWithSerialization</a>)</li>
-<li class="circle">org.example.logger.<a href="org/example/logger/LoggerPizzeria.html" class="type-name-link" title="class in org.example.logger">LoggerPizzeria</a> (implements org.example.<a href="org/example/PizzeriaInterface.html" title="interface in org.example">PizzeriaInterface</a>)</li>
-<li class="circle">org.example.logger.<a href="org/example/logger/LoggerPizzeriaWithSerialization.html" class="type-name-link" title="class in org.example.logger">LoggerPizzeriaWithSerialization</a> (implements org.example.<a href="org/example/PizzeriaInterfaceWithSerialization.html" title="interface in org.example">PizzeriaInterfaceWithSerialization</a>)</li>
 <li class="circle">org.example.<a href="org/example/Main.html" class="type-name-link" title="class in org.example">Main</a></li>
 <li class="circle">org.example.<a href="org/example/OrderQueue.html" class="type-name-link" title="class in org.example">OrderQueue</a></li>
+<li class="circle">org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/Pizzeria.html" class="type-name-link" title="class in org.example.interfaces_abstractClasses">Pizzeria</a> (implements org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/PizzeriaInterface.html" title="interface in org.example.interfaces_abstractClasses">PizzeriaInterface</a>)
+<ul>
+<li class="circle">org.example.console.<a href="org/example/console/ConsolePizzeria.html" class="type-name-link" title="class in org.example.console">ConsolePizzeria</a></li>
+<li class="circle">org.example.logger.<a href="org/example/logger/LoggerPizzeria.html" class="type-name-link" title="class in org.example.logger">LoggerPizzeria</a></li>
+</ul>
+</li>
+<li class="circle">org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/PizzeriaWithSeriallization.html" class="type-name-link" title="class in org.example.interfaces_abstractClasses">PizzeriaWithSeriallization</a> (implements org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/PizzeriaInterfaceWithSerialization.html" title="interface in org.example.interfaces_abstractClasses">PizzeriaInterfaceWithSerialization</a>)
+<ul>
+<li class="circle">org.example.console.<a href="org/example/console/ConsolePizzeriaWithSerialization.html" class="type-name-link" title="class in org.example.console">ConsolePizzeriaWithSerialization</a></li>
+<li class="circle">org.example.logger.<a href="org/example/logger/LoggerPizzeriaWithSerialization.html" class="type-name-link" title="class in org.example.logger">LoggerPizzeriaWithSerialization</a></li>
+</ul>
+</li>
 <li class="circle">org.example.<a href="org/example/Storage.html" class="type-name-link" title="class in org.example">Storage</a></li>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Thread.html" class="type-name-link external-link" title="class or interface in java.lang">Thread</a> (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>)
 <ul>
-<li class="circle">org.example.console.<a href="org/example/console/Baker.html" class="type-name-link" title="class in org.example.console">Baker</a> (implements org.example.<a href="org/example/Worker.html" title="interface in org.example">Worker</a>)</li>
-<li class="circle">org.example.console.<a href="org/example/console/Courier.html" class="type-name-link" title="class in org.example.console">Courier</a> (implements org.example.<a href="org/example/Worker.html" title="interface in org.example">Worker</a>)</li>
-<li class="circle">org.example.logger.<a href="org/example/logger/LoggerBaker.html" class="type-name-link" title="class in org.example.logger">LoggerBaker</a> (implements org.example.<a href="org/example/Worker.html" title="interface in org.example">Worker</a>)</li>
-<li class="circle">org.example.logger.<a href="org/example/logger/LoggerCourier.html" class="type-name-link" title="class in org.example.logger">LoggerCourier</a> (implements org.example.<a href="org/example/Worker.html" title="interface in org.example">Worker</a>)</li>
+<li class="circle">org.example.console.<a href="org/example/console/Baker.html" class="type-name-link" title="class in org.example.console">Baker</a> (implements org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/Worker.html" title="interface in org.example.interfaces_abstractClasses">Worker</a>)</li>
+<li class="circle">org.example.console.<a href="org/example/console/Courier.html" class="type-name-link" title="class in org.example.console">Courier</a> (implements org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/Worker.html" title="interface in org.example.interfaces_abstractClasses">Worker</a>)</li>
+<li class="circle">org.example.logger.<a href="org/example/logger/LoggerBaker.html" class="type-name-link" title="class in org.example.logger">LoggerBaker</a> (implements org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/Worker.html" title="interface in org.example.interfaces_abstractClasses">Worker</a>)</li>
+<li class="circle">org.example.logger.<a href="org/example/logger/LoggerCourier.html" class="type-name-link" title="class in org.example.logger">LoggerCourier</a> (implements org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/Worker.html" title="interface in org.example.interfaces_abstractClasses">Worker</a>)</li>
 </ul>
 </li>
 </ul>
@@ -83,9 +92,9 @@ loadScripts(document, 'script');</script>
 <section class="hierarchy">
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
-<li class="circle">org.example.<a href="org/example/PizzeriaInterface.html" class="type-name-link" title="interface in org.example">PizzeriaInterface</a></li>
-<li class="circle">org.example.<a href="org/example/PizzeriaInterfaceWithSerialization.html" class="type-name-link" title="interface in org.example">PizzeriaInterfaceWithSerialization</a></li>
-<li class="circle">org.example.<a href="org/example/Worker.html" class="type-name-link" title="interface in org.example">Worker</a></li>
+<li class="circle">org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/PizzeriaInterface.html" class="type-name-link" title="interface in org.example.interfaces_abstractClasses">PizzeriaInterface</a></li>
+<li class="circle">org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/PizzeriaInterfaceWithSerialization.html" class="type-name-link" title="interface in org.example.interfaces_abstractClasses">PizzeriaInterfaceWithSerialization</a></li>
+<li class="circle">org.example.interfaces_abstractClasses.<a href="org/example/interfaces_abstractClasses/Worker.html" class="type-name-link" title="interface in org.example.interfaces_abstractClasses">Worker</a></li>
 </ul>
 </section>
 </main>
