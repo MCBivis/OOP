@@ -1,4 +1,4 @@
-package org.example;
+package org.example.interfaces_abstractClasses;
 
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
 package org.example.console;
 
 import org.example.Storage;
-import org.example.Worker;
+import org.example.interfaces_abstractClasses.Worker;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;

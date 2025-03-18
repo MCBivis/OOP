@@ -3,7 +3,7 @@ package org.example.logger;
 import org.apache.logging.log4j.*;
 import org.example.OrderQueue;
 import org.example.Storage;
-import org.example.Worker;
+import org.example.interfaces_abstractClasses.Worker;
 
 import java.util.concurrent.atomic.*;
 

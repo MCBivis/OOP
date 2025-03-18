@@ -1,4 +1,4 @@
-package org.example;
+package org.example.interfaces_abstractClasses;
 
 public interface PizzeriaInterface {
     void start();

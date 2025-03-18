@@ -1,6 +1,6 @@
 package org.example.logger;
 
-import org.example.PizzeriaInterfaceWithSerialization;
+import org.example.interfaces_abstractClasses.PizzeriaInterfaceWithSerialization;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

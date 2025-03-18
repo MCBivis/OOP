@@ -1,6 +1,6 @@
 package org.example.console;
 
-import org.example.PizzeriaInterface;
+import org.example.interfaces_abstractClasses.PizzeriaInterface;
 import org.junit.jupiter.api.*;
 
 class ConsolePizzeriaTest {

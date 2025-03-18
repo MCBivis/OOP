@@ -1,6 +1,6 @@
 package org.example.logger;
 
-import org.example.PizzeriaInterface;
+import org.example.interfaces_abstractClasses.PizzeriaInterface;
 import org.junit.jupiter.api.Test;
 
 public class LoggerPizzeriaTest {
