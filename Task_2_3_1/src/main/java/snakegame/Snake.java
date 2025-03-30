@@ -25,7 +25,7 @@ public class Snake {
     }
 
     public void changeDirection(int newDx, int newDy) {
-        if (dx != -newDx || dy != -newDy) {  // Запрещаем движение назад
+        if (dx != -newDx || dy != -newDy) {
             dx = newDx;
             dy = newDy;
         }

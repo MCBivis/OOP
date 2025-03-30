@@ -33,6 +33,6 @@ public class SnakeTest {
         for (int i = 0; i < 20; i++) {
             snake.move();
         }
-        assertTrue(snake.checkCollision(30, 20)); // Проверяем столкновение
+        assertTrue(snake.checkCollision(30, 20));
     }
 }

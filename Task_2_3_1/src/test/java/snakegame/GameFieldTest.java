@@ -14,7 +14,7 @@ public class GameFieldTest {
         LinkedList<Point> snakeBody = new LinkedList<>();
         snakeBody.add(new Point(5, 5));
         gameField.generateFood(snakeBody);
-        assertEquals(3, gameField.getFoodPositions().size()); // Три еды должны быть сгенерированы
+        assertEquals(3, gameField.getFoodPositions().size());
     }
 
     @Test

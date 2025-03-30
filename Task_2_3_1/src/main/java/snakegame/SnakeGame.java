@@ -21,8 +21,7 @@ public class SnakeGame extends Application {
         Scene scene = new Scene(loader.load());
 
         primaryStage.setTitle("Snake Game");
-        InputStream iconStream = getClass().getResourceAsStream("/icon.jpg");
-        Image image = new Image(iconStream);
+        Image image = new Image(getClass().getResourceAsStream("/icon.jpg"));
         primaryStage.getIcons().add(image);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

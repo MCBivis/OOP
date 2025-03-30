@@ -6,14 +6,21 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class GameController {
+    @FXML private VBox startScreen;
+    @FXML private TextField scoreInput;
     @FXML private Canvas gameCanvas;
     @FXML private Label scoreLabel;
     @FXML private Button restartButton;
+
+    private Image appleImage = new Image(getClass().getResourceAsStream("/apple.png"));
 
     private static final int CELL_SIZE = 20;
     private static final int WIDTH = 30;
@@ -24,14 +31,35 @@ public class GameController {
     private boolean running;
     private Thread gameLoop;
     private boolean gameOverDisplayed = false;
+    private int scoreToWin;
+
+    @FXML
+    private void startGame() {
+        try {
+            scoreToWin = Integer.parseInt(scoreInput.getText());
+            if (scoreToWin <= 0 || scoreToWin >= 600) {
+                throw new NumberFormatException();
+            }
+
+            startScreen.setVisible(false);
+
+            gameCanvas.setVisible(true);
+            scoreLabel.setVisible(true);
+            restartButton.setVisible(true);
+
+            restartGame();
+        } catch (NumberFormatException e) {
+            scoreInput.setText("Неверный ввод!");
+        }
+    }
 
     @FXML
     public void initialize() {
-        restartButton.setOnAction(e -> restartGame());
+        showStartScreen();
+        restartButton.setOnAction(e -> showStartScreen());
         restartButton.setFocusTraversable(false);
         gameCanvas.setFocusTraversable(true);
         gameCanvas.setOnKeyPressed(this::handleKeyPress);
-        restartGame();
     }
 
     private void restartGame() {
@@ -40,8 +68,7 @@ public class GameController {
         running = true;
 
         if (gameLoop != null) {
-            gameLoop.interrupt();
-            gameLoop = null;
+            gameLoopStop();
         }
 
         gameLoop = new Thread(() -> {
@@ -75,8 +102,7 @@ public class GameController {
         for (int i = 0; i < delta; i++) {
             if (snake.checkCollision(WIDTH, HEIGHT)) {
                 running = false;
-                gameLoop.interrupt();
-                gameLoop = null;
+                gameLoopStop();
                 drawGameOver();
                 return;
             }
@@ -84,6 +110,12 @@ public class GameController {
             boolean ateFood = gameField.isFood(snake.getNextHeadPosition());
             if (ateFood) {
                 snake.grow();
+                if (snake.getBody().size() >= scoreToWin) {
+                    running = false;
+                    gameLoopStop();
+                    drawVictory();
+                    return;
+                }
                 gameField.generateFood(snake.getBody());
             } else {
                 snake.move();
@@ -95,12 +127,11 @@ public class GameController {
 
     private void draw() {
         GraphicsContext gc = gameCanvas.getGraphicsContext2D();
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.ALICEBLUE);
         gc.fillRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
 
-        gc.setFill(Color.RED);
         for (var food : gameField.getFoodPositions()) {
-            gc.fillRect(food.x * CELL_SIZE, food.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            gc.drawImage(appleImage, food.x * CELL_SIZE, food.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
 
         gc.setFill(Color.GREEN);
@@ -131,4 +162,27 @@ public class GameController {
     public boolean isGameOverDisplayed() {
         return gameOverDisplayed;
     }
+
+    private void showStartScreen() {
+        Platform.runLater(() -> {
+            startScreen.setVisible(true);
+            scoreInput.clear();
+            gameCanvas.setVisible(false);
+            scoreLabel.setVisible(false);
+            restartButton.setVisible(false);
+        });
+    }
+
+    private void gameLoopStop() {
+        gameLoop.interrupt();
+        gameLoop = null;
+    }
+
+    private void drawVictory() {
+        GraphicsContext gc = gameCanvas.getGraphicsContext2D();
+        gc.setFill(Color.GREENYELLOW);
+        gc.setFont(new Font(30));
+        gc.fillText("Victory", gameCanvas.getWidth() / 3, gameCanvas.getHeight() / 2);
+    }
+
 }
