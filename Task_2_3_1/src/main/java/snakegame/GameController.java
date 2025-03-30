@@ -1,6 +1,6 @@
 package snakegame;
 
-import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,11 +22,13 @@ public class GameController {
     private GameField gameField;
     private Snake snake;
     private boolean running;
-    private AnimationTimer gameLoop;
+    private Thread gameLoop;
+    private boolean gameOverDisplayed = false;
 
     @FXML
     public void initialize() {
         restartButton.setOnAction(e -> restartGame());
+        restartButton.setFocusTraversable(false);
         gameCanvas.setFocusTraversable(true);
         gameCanvas.setOnKeyPressed(this::handleKeyPress);
         restartGame();
@@ -38,40 +40,54 @@ public class GameController {
         running = true;
 
         if (gameLoop != null) {
-            gameLoop.stop();
+            gameLoop.interrupt();
+            gameLoop = null;
         }
 
-        gameLoop = new AnimationTimer() {
-            private long lastUpdate = 0;
-            private static final long MOVE_INTERVAL = 150_000_000; // 150ms
+        gameLoop = new Thread(() -> {
+            long lastUpdate = 0;
+            long MOVE_INTERVAL = 150_000_000;
 
-            @Override
-            public void handle(long now) {
-                if (now - lastUpdate >= MOVE_INTERVAL) {
+            while (running) {
+                long now = System.nanoTime();
+                if (now - lastUpdate > MOVE_INTERVAL) {
+                    int computedDelta = (int) ((now - lastUpdate) / MOVE_INTERVAL);
+
+                    if (lastUpdate == 0) {
+                        computedDelta = 1;
+                    }
+
                     lastUpdate = now;
-                    updateGame();
+
+                    final int delta = computedDelta;
+                    Platform.runLater(() -> updateGame(delta));
                 }
             }
-        };
+        });
+
+        gameLoop.setDaemon(true);
         gameLoop.start();
     }
 
-    private void updateGame() {
+    private void updateGame(int delta) {
         if (!running) return;
 
-        if (snake.checkCollision(WIDTH, HEIGHT)) {
-            running = false;
-            gameLoop.stop();
-            drawGameOver();
-            return;
-        }
+        for (int i = 0; i < delta; i++) {
+            if (snake.checkCollision(WIDTH, HEIGHT)) {
+                running = false;
+                gameLoop.interrupt();
+                gameLoop = null;
+                drawGameOver();
+                return;
+            }
 
-        boolean ateFood = gameField.isFood(snake.getNextHeadPosition());
-        if (ateFood) {
-            snake.grow();
-            gameField.generateFood(snake.getBody());
-        } else {
-            snake.move();
+            boolean ateFood = gameField.isFood(snake.getNextHeadPosition());
+            if (ateFood) {
+                snake.grow();
+                gameField.generateFood(snake.getBody());
+            } else {
+                snake.move();
+            }
         }
 
         draw();
@@ -82,13 +98,11 @@ public class GameController {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
 
-        // Рисуем еду
         gc.setFill(Color.RED);
         for (var food : gameField.getFoodPositions()) {
             gc.fillRect(food.x * CELL_SIZE, food.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
 
-        // Рисуем змейку
         gc.setFill(Color.GREEN);
         for (var segment : snake.getBody()) {
             gc.fillRect(segment.x * CELL_SIZE, segment.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -98,6 +112,7 @@ public class GameController {
     }
 
     private void drawGameOver() {
+        gameOverDisplayed = true;
         GraphicsContext gc = gameCanvas.getGraphicsContext2D();
         gc.setFill(Color.RED);
         gc.setFont(new Font(30));
@@ -111,5 +126,9 @@ public class GameController {
             case LEFT, A -> snake.changeDirection(-1, 0);
             case RIGHT, D -> snake.changeDirection(1, 0);
         }
+    }
+
+    public boolean isGameOverDisplayed() {
+        return gameOverDisplayed;
     }
 }

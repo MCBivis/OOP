@@ -1,15 +1,12 @@
 package snakegame;
 
 import java.awt.Point;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class GameField {
-    private int width, height;
-    private Set<Point> food;
-    private Random random;
+    private final int width, height;
+    private final Set<Point> food;
+    private final Random random;
 
     public GameField(int width, int height) {
         this.width = width;
@@ -21,11 +18,25 @@ public class GameField {
 
     public void generateFood(LinkedList<Point> occupied) {
         food.clear();
-        while (food.size() < 3) {
-            Point newFood = new Point(random.nextInt(width), random.nextInt(height));
-            if (!occupied.contains(newFood)) {
-                food.add(newFood);
+
+        List<Point> availableCells = new ArrayList<>();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                Point point = new Point(x, y);
+
+                if (!occupied.contains(point)) {
+                    availableCells.add(point);
+                }
             }
+        }
+
+        while (food.size() < 3 && !availableCells.isEmpty()) {
+            int randomIndex = random.nextInt(availableCells.size());
+            Point newFood = availableCells.get(randomIndex);
+
+            food.add(newFood);
+
+            availableCells.remove(randomIndex);
         }
     }
 

@@ -25,6 +25,7 @@ public class SnakeGame extends Application {
         Image image = new Image(iconStream);
         primaryStage.getIcons().add(image);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
