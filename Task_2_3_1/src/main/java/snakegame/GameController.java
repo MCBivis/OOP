@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.awt.*;
+
 public class GameController {
     @FXML private VBox startScreen;
     @FXML private TextField scoreInput;
@@ -64,7 +66,7 @@ public class GameController {
 
     private void restartGame() {
         gameField = new GameField(WIDTH, HEIGHT);
-        snake = new Snake(WIDTH / 2, HEIGHT / 2);
+        snake = new Snake(WIDTH / 2, HEIGHT / 2, gameField);
         running = true;
 
         if (gameLoop != null) {
@@ -82,6 +84,7 @@ public class GameController {
 
                     if (lastUpdate == 0) {
                         computedDelta = 1;
+                        Platform.runLater(() -> fullDraw());
                     }
 
                     lastUpdate = now;
@@ -91,7 +94,6 @@ public class GameController {
                 }
             }
         });
-
         gameLoop.setDaemon(true);
         gameLoop.start();
     }
@@ -100,15 +102,18 @@ public class GameController {
         if (!running) return;
 
         for (int i = 0; i < delta; i++) {
-            if (snake.checkCollision(WIDTH, HEIGHT)) {
+            CellType collision = snake.checkCollision(WIDTH, HEIGHT);
+            if (collision == CellType.WALL || collision == CellType.SNAKE) {
                 running = false;
                 gameLoopStop();
                 drawGameOver();
                 return;
             }
 
-            boolean ateFood = gameField.isFood(snake.getNextHeadPosition());
-            if (ateFood) {
+            Point clearTail = null;
+            Point newFood = null;
+
+            if (collision == CellType.FOOD) {
                 snake.grow();
                 if (snake.getBody().size() >= scoreToWin) {
                     running = false;
@@ -116,16 +121,16 @@ public class GameController {
                     drawVictory();
                     return;
                 }
-                gameField.generateFood(snake.getBody());
+                newFood = gameField.generateFood(snake.getBody(), snake.getNextHeadPosition());
             } else {
-                snake.move();
+                clearTail = snake.move();
             }
-        }
 
-        draw();
+            draw(clearTail, newFood);
+        }
     }
 
-    private void draw() {
+    private void fullDraw() {
         GraphicsContext gc = gameCanvas.getGraphicsContext2D();
         gc.setFill(Color.ALICEBLUE);
         gc.fillRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
@@ -138,6 +143,21 @@ public class GameController {
         for (var segment : snake.getBody()) {
             gc.fillRect(segment.x * CELL_SIZE, segment.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
+
+        scoreLabel.setText("Score: " + snake.getBody().size());
+    }
+
+    private void draw(Point clearTail, Point newFood) {
+        GraphicsContext gc = gameCanvas.getGraphicsContext2D();
+        if(clearTail != null) {
+            gc.setFill(Color.ALICEBLUE);
+            gc.fillRect(clearTail.x * CELL_SIZE, clearTail.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        }
+        if (newFood != null) {
+            gc.drawImage(appleImage, newFood.x * CELL_SIZE, newFood.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        }
+        gc.setFill(Color.GREEN);
+        gc.fillRect(snake.getBody().getFirst().x * CELL_SIZE, snake.getBody().getFirst().y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
         scoreLabel.setText("Score: " + snake.getBody().size());
     }

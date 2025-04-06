@@ -6,18 +6,20 @@ import java.util.LinkedList;
 public class Snake {
     private LinkedList<Point> body;
     private int dx, dy;
+    private final GameField gameField;
 
-    public Snake(int startX, int startY) {
+    public Snake(int startX, int startY, GameField gameField) {
         body = new LinkedList<>();
         body.add(new Point(startX, startY));
         dx = 1;
         dy = 0;
+        this.gameField = gameField;
     }
 
-    public void move() {
+    public Point move() {
         Point newHead = getNextHeadPosition();
         body.addFirst(newHead);
-        body.removeLast();
+        return body.removeLast();
     }
 
     public void grow() {
@@ -36,12 +38,19 @@ public class Snake {
         return new Point(head.x + dx, head.y + dy);
     }
 
-    public boolean checkCollision(int width, int height) {
+    public CellType checkCollision(int width, int height) {
         Point head = body.getFirst();
         if (head.x < 0 || head.x >= width || head.y < 0 || head.y >= height) {
-            return true;
+            return CellType.WALL;
         }
-        return body.stream().skip(1).anyMatch(segment -> segment.equals(head));
+
+        if (body.stream().skip(1).anyMatch(segment -> segment.equals(head))){
+            return CellType.SNAKE;
+        }
+        if (gameField.isFood(head)){
+            return CellType.FOOD;
+        }
+        return CellType.EMPTY;
     }
 
     public LinkedList<Point> getBody() {

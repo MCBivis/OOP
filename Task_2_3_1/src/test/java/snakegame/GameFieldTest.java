@@ -13,17 +13,17 @@ public class GameFieldTest {
         GameField gameField = new GameField(30, 20);
         LinkedList<Point> snakeBody = new LinkedList<>();
         snakeBody.add(new Point(5, 5));
-        gameField.generateFood(snakeBody);
+        gameField.generateFood(snakeBody, null);
         assertEquals(3, gameField.getFoodPositions().size());
     }
 
     @Test
     public void testFoodNotCollided() {
-        GameField gameField = new GameField(30, 20);
-        LinkedList<Point> snakeBody = new LinkedList<>();
-        snakeBody.add(new Point(5, 5));
         for(int i = 0; i < 1000; i++) {
-            gameField.generateFood(snakeBody);
+            GameField gameField = new GameField(30, 20);
+            LinkedList<Point> snakeBody = new LinkedList<>();
+            snakeBody.add(new Point(5, 5));
+            gameField.generateFood(snakeBody, null);
             for (Point foodPosition : gameField.getFoodPositions()){
                 assertNotSame(foodPosition, snakeBody.getFirst());
             }
