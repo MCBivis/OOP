@@ -23,10 +23,6 @@ public class Group {
         this.students = students;
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
-    }
-
     @Override
     public String toString() {
         return "Group{" +
