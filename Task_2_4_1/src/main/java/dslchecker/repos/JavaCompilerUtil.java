@@ -1,4 +1,4 @@
-package dslchecker.compile;
+package dslchecker.repos;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class JavaCompilerUtil {
 
-    public static boolean compileSources(File sourceRoot, File outputDir) {
+    public static boolean compileSources(File sourceRoot, File outputDir, String extraClasspath) {
         List<File> javaFiles = findJavaFiles(sourceRoot);
         if (javaFiles.isEmpty()) {
             System.out.println("Нет файлов для компиляции в " + sourceRoot.getAbsolutePath());
@@ -21,8 +21,18 @@ public class JavaCompilerUtil {
             return false;
         }
 
-        List<String> options = List.of("-d", outputDir.getAbsolutePath());
-        List<String> fileNames = javaFiles.stream().map(File::getAbsolutePath).toList();
+        List<String> options = new ArrayList<>();
+        options.add("-d");
+        options.add(outputDir.getAbsolutePath());
+
+        if (extraClasspath != null) {
+            options.add("-classpath");
+            options.add(extraClasspath);
+        }
+
+        List<String> fileNames = javaFiles.stream()
+                .map(File::getAbsolutePath)
+                .toList();
 
         List<String> args = new ArrayList<>(options);
         args.addAll(fileNames);
@@ -30,10 +40,10 @@ public class JavaCompilerUtil {
         int result = compiler.run(null, null, null, args.toArray(new String[0]));
 
         if (result == 0) {
-            System.out.println("Компиляция прошла успешно");
+            System.out.println("Компиляция прошла успешно: " + sourceRoot.getName());
             return true;
         } else {
-            System.err.println("Ошибка компиляции");
+            System.err.println("Ошибка компиляции в " + sourceRoot.getName());
             return false;
         }
     }

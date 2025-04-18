@@ -11,6 +11,12 @@ course.tasks {
         softDeadline = '2025-04-15'
         hardDeadline = '2025-04-22'
     }
+    task('Task_1_1_2') {
+        title = 'Консольный блэкджек'
+        maxScore = 1
+        softDeadline = '2024-10-01'
+        hardDeadline = '2024-10-08'
+    }
 }
 
 course.groups {
@@ -31,8 +37,8 @@ course.groups {
 course.assignments {
     assign ('Task_2_4_1', 'MCBivis')
     assign ('Task_2_4_1', 'nkrainov')
-    assign ('Task_1_1_3', 'MCBivis')
-    assign ('Task_1_1_3', 'nkrainov')
+    assign ('Task_1_1_2', 'MCBivis')
+    assign ('Task_1_1_2', 'nkrainov')
 }
 
 course.milestones {
@@ -41,6 +47,5 @@ course.milestones {
 }
 
 course.settings {
-    bonusPoints = ['MCBivis': ['Task_2_4_1': 0.5]]
-    testTimeoutStrategy = 'skipAfter60Seconds'
+    bonusPoints = ['MCBivis': ['Task_1_1_2': 0.5]]
 }

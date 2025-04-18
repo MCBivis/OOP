@@ -1,4 +1,5 @@
 rootProject.name = 'Task_2_4_1'
 include 'src:main:groovy'
 findProject(':src:main:groovy')?.name = 'groovy'
+include 'tools'
 
