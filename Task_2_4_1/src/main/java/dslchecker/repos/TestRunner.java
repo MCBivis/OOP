@@ -22,9 +22,9 @@ public class TestRunner {
     }
 
     public Map<String, List<Integer>> runAllTests() {
-        Map<String, List<Integer>> testResults = new LinkedHashMap<>();
+        Map<String, List<Integer>> testResults = java.util.Collections.synchronizedMap(new LinkedHashMap<>());
 
-        for (String taskPath : successfulTasks) {
+        successfulTasks.parallelStream().forEach(taskPath -> {
             System.out.println("\nЗапуск тестов для: " + taskPath);
 
             Path classDir = Path.of(buildRoot, taskPath);
@@ -35,7 +35,7 @@ public class TestRunner {
                 if (testFiles.isEmpty()) {
                     System.out.println("Нет тестов");
                     testResults.put(taskPath, Arrays.asList(0, 0, 0));
-                    continue;
+                    return;
                 }
 
                 List<String> command = new ArrayList<>();
@@ -70,14 +70,14 @@ public class TestRunner {
                     }
                 }
 
-                System.out.printf("Результат: прошло %d, провалено %d, прервано %d\n", passed, failed, aborted);
+                System.out.printf("Результат для " + taskPath + ": прошло %d, провалено %d, прервано %d\n", passed, failed, aborted);
                 testResults.put(taskPath, Arrays.asList(passed, failed, aborted));
 
             } catch (Exception e) {
                 System.err.println("Ошибка запуска тестов для " + taskPath + ": " + e.getMessage());
                 testResults.put(taskPath, Arrays.asList(0, 0, 0));
             }
-        }
+        });
 
         return testResults;
     }

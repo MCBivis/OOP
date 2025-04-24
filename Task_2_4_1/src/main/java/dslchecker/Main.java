@@ -1,5 +1,6 @@
 package dslchecker;
 
+import dslchecker.report.HtmlReportDataBuilder;
 import dslchecker.report.HtmlReportGenerator;
 import dslchecker.repos.*;
 import dslchecker.config.CourseConfig;
@@ -7,7 +8,6 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 
 import java.io.File;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,22 +32,12 @@ public class Main {
         List<String> successfulStyleGeneratedTasks = styleChecker.checkAll();
 
         TestRunner testRunner = new TestRunner(courseConfig, repoRoot,"build/classes", successfulCompiledTasks);
-        testRunner.runAllTests();
+        Map<String, List<Integer>> testResults = testRunner.runAllTests();
 
-        Map<String, Map<String, List<String>>> data = new LinkedHashMap<>();
+        HtmlReportDataBuilder htmlReportDataBuilder = new HtmlReportDataBuilder(courseConfig, successfulCompiledTasks, successfulDocGeneratedTasks, successfulStyleGeneratedTasks, testResults);
+        Map<String, Map<String, List<String>>> reportData = htmlReportDataBuilder.buildDetailedReportData();
+        Map<String, List<String>> summaryTable = htmlReportDataBuilder.buildGroupSummaryData(reportData);
 
-        Map<String, List<String>> labTasks = new LinkedHashMap<>();
-        labTasks.put("2_1_1 (Простые числа)", List.of(
-                "Студент No1\t+\t+\t+\t10/0/0\t0\t1",
-                "Студент No2\t+\t-\t-\t0/0/0\t0\t0"
-        ));
-        labTasks.put("2_3_1 (Змейка)", List.of(
-                "Студент No1\t-\t-\t-\t0/0/0\t0\t0",
-                "Студент No2\t+\t+\t+\t4/0/0\t1\t2"
-        ));
-
-        data.put("12345", labTasks);
-
-        HtmlReportGenerator.generateReport("report.html", data);
+        HtmlReportGenerator.generateReport("report.html", reportData, summaryTable);
     }
 }

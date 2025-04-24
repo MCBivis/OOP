@@ -1,7 +1,5 @@
 package dslchecker.repos;
 
-import dslchecker.config.CourseConfig;
-
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
@@ -18,22 +16,22 @@ public class StyleChecker {
     }
 
     public List<String> checkAll() {
-        List<String> success = new ArrayList<>();
+        List<String> success = java.util.Collections.synchronizedList(new ArrayList<>());
 
-        for (String taskPath : successfulTasks) {
+        successfulTasks.parallelStream().forEach(taskPath -> {
             System.out.println("\nПроверка стиля: " + taskPath);
             Path sourceDir = Path.of(repoRoot, taskPath, "src", "main");
 
             try {
                 boolean result = checkStyleWithGoogleFormat(sourceDir);
-                System.out.println("Стиль: " + (result ? "соответствует" : "ошибка в файлах выше"));
+                System.out.println("Стиль: " + taskPath + (result ? " соответствует\n" : " ошибка\n"));
                 if (result) {
                     success.add(taskPath);
                 }
             } catch (Exception e) {
                 System.err.println("Ошибка проверки стиля для " + taskPath + ": " + e.getMessage());
             }
-        }
+        });
 
         return success;
     }

@@ -78,6 +78,23 @@ public class CourseConfig {
         closure.call();
     }
 
+    public double getBonusPoints(String github, String taskId) {
+        Object raw = settings.get("bonusPoints");
+
+        if (!(raw instanceof Map)) return 0.0;
+
+        Map<String, Object> bonusMap = (Map<String, Object>) raw;
+        Object userBonus = bonusMap.get(github);
+        if (!(userBonus instanceof Map)) return 0.0;
+
+        Map<String, Object> userTaskBonuses = (Map<String, Object>) userBonus;
+        Object bonusValue = userTaskBonuses.get(taskId);
+        if (bonusValue instanceof Number) {
+            return ((Number) bonusValue).doubleValue();
+        }
+
+        return 0.0;
+    }
     public List<Task> getTasks() { return tasks; }
     public List<Group> getGroups() { return groups; }
     public List<Assignment> getAssignments() { return assignments; }

@@ -1,7 +1,5 @@
 package dslchecker.repos;
 
-import dslchecker.config.CourseConfig;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,9 +18,9 @@ public class JavadocGenerator {
     }
 
     public List<String> generateAll() {
-        List<String> success = new ArrayList<>();
+        List<String> success = java.util.Collections.synchronizedList(new ArrayList<>());
 
-        for (String taskPath : successfulTasks) {
+        successfulTasks.parallelStream().forEach(taskPath -> {
             System.out.println("\nГенерация Javadoc для " + taskPath);
 
             Path sourceDir = Path.of(repoRoot, taskPath, "src", "main");
@@ -30,14 +28,14 @@ public class JavadocGenerator {
 
             try {
                 boolean ok = generateJavadoc(sourceDir, docOutputDir);
-                System.out.println("Javadoc " + (ok ? "успешно сгенерирован." : "ошибка генерации."));
+                System.out.println("Javadoc " + (ok ? "успешно сгенерирован для " + taskPath : "ошибка генерации для " + taskPath));
                 if (ok) {
                     success.add(taskPath);
                 }
             } catch (IOException e) {
                 System.err.println("Ошибка генерации Javadoc для " + taskPath + ": " + e.getMessage());
             }
-        }
+        });
 
         return success;
     }
@@ -49,6 +47,8 @@ public class JavadocGenerator {
         javadocCmd.add("javadoc");
         javadocCmd.add("-d");
         javadocCmd.add(outputPath.toString());
+        javadocCmd.add("-quiet");
+        javadocCmd.add("-Xdoclint:none");
 
         try (Stream<Path> pathStream = Files.walk(repoPath)) {
             pathStream.filter(p -> p.toString().endsWith(".java"))

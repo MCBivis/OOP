@@ -40,10 +40,10 @@ public class JavaCompilerUtil {
         int result = compiler.run(null, null, null, args.toArray(new String[0]));
 
         if (result == 0) {
-            System.out.println("Компиляция прошла успешно: " + sourceRoot.getName());
+            System.out.println("Компиляция прошла успешно: " + sourceRoot);
             return true;
         } else {
-            System.err.println("Ошибка компиляции в " + sourceRoot.getName());
+            System.err.println("Ошибка компиляции в " + sourceRoot);
             return false;
         }
     }

@@ -1,7 +1,6 @@
 package dslchecker.repos;
 
 import dslchecker.config.CourseConfig;
-import dslchecker.model.*;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -18,33 +17,31 @@ public class CompilationChecker {
     }
 
     public List<String> checkAll() {
-        List<String> successfulTaskIds = new ArrayList<>();
+        List<String> successfulTaskIds = Collections.synchronizedList(new ArrayList<>());
 
-        for (Assignment assignment : config.getAssignments()) {
+        config.getAssignments().parallelStream().forEach(assignment -> {
             String taskId = assignment.getTaskId();
             String github = assignment.getGithub();
 
-            System.out.println("\nПроверка: " + assignment.getGithub());
             File sourceRoot = new File(repoRoot, github + "/" + taskId + "/src/main");
             File outputDir = new File(buildRoot, github + "/" + taskId);
             outputDir.mkdirs();
 
-            System.out.println("Задача " + taskId + ": компиляция main...");
+            System.out.println("Задача " + github + " " + taskId + ": компиляция main...");
             boolean successMain = JavaCompilerUtil.compileSources(sourceRoot, outputDir, null);
-            System.out.println("Результат: " + (successMain ? "Успешно" : "Неудача"));
 
             sourceRoot = new File(repoRoot, github + "/" + taskId + "/src/test");
             String classpath = "tools/junit-platform-console-standalone.jar"
                     + File.pathSeparator +
                     Path.of(buildRoot, github, taskId).toAbsolutePath();
 
-            System.out.println("Задача " + taskId + ": компиляция test...");
+            System.out.println("Задача " + github + " " + taskId + ": компиляция test...");
             boolean successTest = JavaCompilerUtil.compileSources(sourceRoot, outputDir, classpath);
-            System.out.println("Результат: " + (successTest ? "Успешно" : "Неудача"));
             if (successMain && successTest) {
                 successfulTaskIds.add(github + "/" + taskId);
             }
-        }
+        });
+
         return successfulTaskIds;
     }
 
