@@ -1,16 +1,13 @@
 package dslchecker.report;
 
-import dslchecker.repos.*;
+import dslchecker.PipelineRunner;
 import dslchecker.config.CourseConfig;
-import dslchecker.repos.RepoLoader;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,35 +31,10 @@ public class HtmlReportGeneratorTest {
     }
 
     @Test
-    public void testFullPipelineAndHtmlReportCreation() throws Exception {
-        // 1. Clone repos
-        RepoLoader.loadRepos(courseConfig);
+    public void testFullPipelineAndHtmlReportCreation(){
+        PipelineRunner runner = new PipelineRunner(courseConfig, REPO_ROOT, BUILD_CLASSES, BUILD_DOCS, REPORT_HTML);
+        runner.runFullPipeline();
 
-        // 2. Compile
-        CompilationChecker compilationChecker = new CompilationChecker(courseConfig, REPO_ROOT, BUILD_CLASSES);
-        List<String> successfulCompiledTasks = compilationChecker.checkAll();
-
-        // 3. Generate javadoc
-        JavadocGenerator javadocGenerator = new JavadocGenerator(REPO_ROOT, BUILD_DOCS, successfulCompiledTasks);
-        List<String> successfulDocs = javadocGenerator.generateAll();
-
-        // 4. Check style
-        StyleChecker styleChecker = new StyleChecker(REPO_ROOT, successfulCompiledTasks);
-        List<String> successfulStyle = styleChecker.checkAll();
-
-        // 5. Run tests
-        TestRunner testRunner = new TestRunner(courseConfig, REPO_ROOT, BUILD_CLASSES, successfulCompiledTasks);
-        Map<String, List<Integer>> testResults = testRunner.runAllTests();
-
-        // 6. Build report data
-        HtmlReportDataBuilder builder = new HtmlReportDataBuilder(courseConfig, successfulCompiledTasks, successfulDocs, successfulStyle, testResults);
-        Map<String, Map<String, List<String>>> reportData = builder.buildDetailedReportData();
-        Map<String, List<String>> summaryTable = builder.buildGroupSummaryData(reportData);
-
-        // 7. Generate report
-        HtmlReportGenerator.generateReport(REPORT_HTML, reportData, summaryTable);
-
-        // 8. Assert report file exists
         File reportFile = new File(REPORT_HTML);
         assertTrue(reportFile.exists(), "HTML report should be generated: " + REPORT_HTML);
     }
