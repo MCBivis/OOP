@@ -2,16 +2,18 @@ package org.example;
 
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class PrimeCheckerClient extends Thread {
     private final String host;
     private final int port;
-    private final int clientId;
+    private final OutputHandler logger;
 
     public PrimeCheckerClient(String host, int port, int clientId) {
         this.host = host;
         this.port = port;
-        this.clientId = clientId;
+        this.logger = new ConsoleOutput("CLIENT " + clientId);
     }
 
     @Override
@@ -23,7 +25,7 @@ public class PrimeCheckerClient extends Thread {
 
                 Object received = in.readObject();
                 if (received == null) {
-                    System.out.println("[CLIENT " + clientId + "] Нет задач. Завершаю работу.");
+                    logger.info("Нет задач. Завершаю работу.");
                     break;
                 }
 
@@ -32,22 +34,20 @@ public class PrimeCheckerClient extends Thread {
                 out.writeObject(result);
 
                 if (result) {
-                    System.out.println("[CLIENT " + clientId + "] Найдено составное число. Завершаю работу.");
+                    logger.info("Найдено составное число. Завершаю работу.");
                     break;
                 }
 
             } catch (IOException | ClassNotFoundException e) {
-                System.err.println("[CLIENT " + clientId + "] Ошибка соединения: " + e.getMessage());
+                logger.error("Ошибка соединения: " + e.getMessage());
                 break;
             }
         }
     }
 
-    private boolean hasNonPrime(int[] numbers) {
-        for (int n : numbers) {
-            if (!isPrime(n)) return true;
-        }
-        return false;
+    public boolean hasNonPrime(int[] numbers) {
+        List<Integer> numberList = Arrays.stream(numbers).boxed().toList();
+        return numberList.parallelStream().anyMatch(number -> !isPrime(number));
     }
 
     protected boolean isPrime(int n) {

@@ -11,9 +11,11 @@ public class PrimeCheckerServer extends Thread {
     private final ExecutorService clientHandlers = Executors.newCachedThreadPool();
     private volatile boolean foundNonPrime = false;
     ServerSocket serverSocket;
+    private final OutputHandler logger;
 
     public PrimeCheckerServer(int port, int[] numbers, int chunkSize) {
         this.port = port;
+        this.logger = new ConsoleOutput("SERVER");
 
         for (int i = 0; i < numbers.length; i += chunkSize) {
             int end = Math.min(i + chunkSize, numbers.length);
@@ -25,7 +27,7 @@ public class PrimeCheckerServer extends Thread {
     public void run() {
         try {
             serverSocket = new ServerSocket(port);
-            System.out.println("[SERVER] Запущен на порту " + port);
+            logger.info("Запущен на порту " + port);
             while (!foundNonPrime && !taskQueue.isEmpty()) {
                 try {
                     Socket socket = serverSocket.accept();
@@ -38,32 +40,33 @@ public class PrimeCheckerServer extends Thread {
                         }
                     });
                 } catch (SocketException e) {
-                    System.out.println("[SERVER] Соединение закрыто.");
+                    logger.info("Соединение закрыто.");
                     break;
                 } catch (IOException e) {
-                    System.err.println("[SERVER] Ошибка при принятии соединения: " + e.getMessage());
+                    logger.error("Ошибка при принятии соединения: " + e.getMessage());
                 }
             }
         } catch (IOException e) {
-            System.err.println("[SERVER] Ошибка запуска сервера: " + e.getMessage());
+            logger.error("Ошибка запуска сервера: " + e.getMessage());
         } finally {
             if (this.serverSocket != null && !this.serverSocket.isClosed()) {
                 try {
                     this.serverSocket.close();
                 } catch (IOException e) {
-                    System.err.println("[SERVER] Ошибка при закрытии сервера: " + e.getMessage());
+                    logger.error("Ошибка при закрытии сервера: " + e.getMessage());
                 }
             }
             clientHandlers.shutdownNow();
-            System.out.println("[SERVER] Завершает работу.");
+            logger.info("Завершает работу.");
         }
     }
 
     private void handleClient(Socket socket) {
+        Task task = null;
         try (ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 
-            Task task = taskQueue.poll();
+            task = taskQueue.poll();
             if (task == null) {
                 out.writeObject(null);
                 return;
@@ -77,7 +80,11 @@ public class PrimeCheckerServer extends Thread {
             }
 
         } catch (Exception e) {
-            System.err.println("[SERVER] Ошибка клиента: " + e.getMessage());
+            logger.error("Ошибка клиента: " + e.getMessage());
+            if (task != null) {
+                taskQueue.add(task);
+                logger.info("Задача возвращена в очередь.");
+            }
         }
     }
     private void checkServerTermination() throws IOException {
